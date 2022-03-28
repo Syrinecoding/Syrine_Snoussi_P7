@@ -2,6 +2,7 @@
 const http = require('http');
 // importation de l'app
 const app = require('./app');
+require('dotenv').config();
 
 // renvoi d'un port valide
 const normalizePort = val => {
