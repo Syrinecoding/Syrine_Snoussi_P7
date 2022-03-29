@@ -13,6 +13,8 @@ application des fonctions du controller */
 router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
 router.get('/profile/:userId', auth, userCtrl.getOneUser);
-//router.put('/:id', auth, multer, userCtrl.updateUserProfile);
+router.get('/users/' , auth, userCtrl.getAllUsers);
+router.put('/:userId', auth, multer, userCtrl.updatePicture);
+router.delete('/:userId', auth, userCtrl.deleteAccount);
 
 module.exports = router;

@@ -53,7 +53,7 @@ exports.signup = (req, res, next) => {
                     if(error) {
                         res.status(500).json({'erreur': error.sqlMessage});                       
                     } else {
-                        res.status(201).json({ message : 'Profile utilisateur créé !'})
+                        res.status(201).json({ message : 'Profil utilisateur créé !'})
                     }
                 });
             }
@@ -108,4 +108,39 @@ exports.getOneUser = (req, res, next) => {
             res.status(200).json(results)
         }
     })
+};
+exports.deleteAccount = (req, res, next) => {
+    const userId = req.params.userId;
+    const sql = "DELETE FROM USERS WHERE userId=?";
+    const sqlParams = [userId];
+    db.query(sql, sqlParams, (error, results, fields) => {
+        if(error) {
+            res.status(500).json({'error': error.sqlMessage});
+        } else {
+            res.status(201).json({ message : 'Compte supprimé !'});
+        }
+    });
+};
+exports.getAllUsers = (req, res, next) => {
+    const sql = "SELECT userID, username, picture, position FROM USERS;";
+    db.query(sql, (error, results, fields) => {
+        if(error) {
+            res.status(500).json({'error': error.sqlMessage });
+        } else (
+            res.status(200).json(results)
+        )
+    });
+};
+exports.updatePicture = (req, res, next) => {
+    const pictureUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    const userId = req.body.userId;
+    const sql = "UPDATE USERS SET picture=? WHERE userId=?";
+    const sqlParams = [pictureUrl, userId];
+    db.query(sql, sqlParams, (error, result, fields) => {
+        if(error) {
+            res.status(500).json({ 'error': error.sqlMessage });
+        } else {
+            res.status(201).json({ message: 'Image de profil modifiée !'});
+        }
+    });
 };
