@@ -1,4 +1,5 @@
 // IMPORTS
+require('dotenv').config();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // import de la connexion avec BDD pour infos
@@ -15,6 +16,7 @@ exports.signup = (req, res, next) => {
         const username = req.body.username;
         const email = req.body.email;
         const password = hash;
+        //TODO vérifier que cela hash bien .
         const position = req.body.position;
         let isAdmin;
         //requête préliminaire : si 0 user, user 1 est admin
@@ -58,4 +60,37 @@ exports.signup = (req, res, next) => {
         });
     })
     .catch(error => res.status(500).json({ error }));
+};
+exports.login = (req, res, next) => {
+    const email = req.body.email;
+    const sql = "SELECT userId, email, password, picture, isAdmin FROM USERS WHERE email= ?";
+    const sqlParams = [email];
+
+    db.query(sql, sqlParams, (error, result, fields) => {
+        // si erreur
+        if(error) {
+            res.status(500).json({'error': error.sqlMessage });
+        // si utlisateur introuvable
+        } else if(result.length == 0){
+            res.status(401).json({ 'error' : 'Utilisateur introuvable !'});
+        } else {
+            bcrypt.compare(req.body.password, result[0].password)
+            .then(valid => {
+                if(!valid) {
+                    return res.status(401).json({'error': 'Mot de passe erroné !'});
+                } else (
+                    res.status(200).json({
+                        userId: result[0].userId,
+                        token: jwt.sign(
+                            { userId: result[0].userId },
+                            process.env.MY_TOKEN_KEY,
+                            { expiresIn: '24h'}
+                        )
+                    })
+                )
+                
+            })
+            .catch(error => res.status(500).json({ error }));
+        }
+    })
 }
