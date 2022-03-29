@@ -93,4 +93,19 @@ exports.login = (req, res, next) => {
             .catch(error => res.status(500).json({ error }));
         }
     })
-}
+};
+exports.getOneUser = (req, res, next) => {
+    const userIdParam = req.params.userId;
+    const sql = "SELECT userId, username, picture, position, isAdmin FROM USERS WHERE userId= ?";
+    const sqlParams = [userIdParam];
+    db.query(sql, sqlParams, (error, results, fields) => {
+        if(error) {
+            res.status(500).json({'error': error.sqlMessage});
+        // si utilisateur introuvable
+        } else if(results.length === 0) {
+            res.status(401).json({ 'error': "L'utilisateur n'existe pas !"});
+        } else {
+            res.status(200).json(results)
+        }
+    })
+};

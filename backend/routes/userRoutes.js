@@ -11,8 +11,8 @@ const userCtrl = require('../controllers/usersCtrl');
 /* enregistrer les routes dans le router et 
 application des fonctions du controller */
 router.post('/signup', userCtrl.signup);
-router.post('/:id', userCtrl.login);
-//router.get('/:id', auth, userCtrl.getUserProfile);
+router.post('/login', userCtrl.login);
+router.get('/profile/:userId', auth, userCtrl.getOneUser);
 //router.put('/:id', auth, multer, userCtrl.updateUserProfile);
 
 module.exports = router;
