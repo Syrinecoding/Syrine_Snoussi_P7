@@ -10,6 +10,7 @@ const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 // appel routes
 const userRoutes = require('./routes/userRoutes');
+const postRoutes = require('./routes/postRoutes');
 // Propriété de rateLimit
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15min
@@ -35,5 +36,6 @@ app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/user', userRoutes);
+app.use('/api/post', postRoutes);
 
 module.exports = app;

@@ -8,10 +8,11 @@ const postCtrl = require('../controllers/postsCtrl');
 
 /* enregistrer les routes dans le router et 
 application des fonctions du controller */
-//router.post('/', auth, multer, postCtrl.createPost);
-//router.get('/', auth, postCtrl.listPosts );
+router.post('/', auth, multer, postCtrl.createPost);
+router.get('/', auth, postCtrl.listPosts );
+router.delete('/:postId', auth, postCtrl.deletePost);
 //router.put('/:id', auth, postCtrl.updatePost);
-//router.delete('/:id', auth, postCtrl.deleteOnePost);
+
 
 
 module.exports = router;

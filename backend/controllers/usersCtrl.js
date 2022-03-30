@@ -131,12 +131,14 @@ exports.getAllUsers = (req, res, next) => {
         )
     });
 };
+// TODO cele n'enregistre pas dans le BDD !!! champ trop long ? cf trim ?
 exports.updatePicture = (req, res, next) => {
     const pictureUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    console.log(pictureUrl);
     const userId = req.body.userId;
     const sql = "UPDATE USERS SET picture=? WHERE userId=?";
     const sqlParams = [pictureUrl, userId];
-    db.query(sql, sqlParams, (error, result, fields) => {
+    db.query(sql, sqlParams, (error, result, rows) => {
         if(error) {
             res.status(500).json({ 'error': error.sqlMessage });
         } else {
