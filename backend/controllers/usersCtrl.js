@@ -40,22 +40,21 @@ exports.signup = (req, res, next) => {
                             message : 'Cet email est déjà enregistré !'
                         });
                     
-                    }
-                });
-                //PB Cela envoie quand même les données à la BDD...
-
-                // requête principale : create User
-                const sqlCreate = ` INSERT INTO USERS (email, username, password, position, isAdmin) VALUES (?, ?, ?, ?, ?)`;
-                const sqlParams = [email, username,  password, position, isAdmin];
-
-                db.query(sqlCreate, sqlParams, (error, result,fields) => {
-                   
-                    if(error) {
-                        res.status(500).json({'erreur': error.sqlMessage});                       
                     } else {
-                        res.status(201).json({ message : 'Profil utilisateur créé !'})
+                        // requête principale : create User
+                        const sqlCreate = ` INSERT INTO USERS (email, username, password, position, isAdmin) VALUES (?, ?, ?, ?, ?)`;
+                        const sqlParams = [email, username,  password, position, isAdmin];
+
+                        db.query(sqlCreate, sqlParams, (error, result,fields) => {
+                   
+                            if(error) {
+                                res.status(500).json({'erreur': error.sqlMessage});                       
+                            } else {
+                                res.status(201).json({ message : 'Profil utilisateur créé !'})
+                            }
+                        });
                     }
-                });
+                });               
             }
         });
     })
@@ -127,22 +126,27 @@ exports.getAllUsers = (req, res, next) => {
         if(error) {
             res.status(500).json({'error': error.sqlMessage });
         } else (
-            res.status(200).json(results)
+            res.status(200).json({
+                users : results,
+                hostDir : `${req.protocol}://${req.get('host')}`
+            })
         )
     });
 };
-// TODO cele n'enregistre pas dans le BDD !!! champ trop long ? cf trim ?
+
 exports.updatePicture = (req, res, next) => {
-    const pictureUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+    const pictureUrl = `/images/${req.file.filename}`;
+    // Créer 2 dossiers multer : profil et post
     console.log(pictureUrl);
-    const userId = req.body.userId;
+    const userId = req.params.userId;
+    console.log(userId);
     const sql = "UPDATE USERS SET picture=? WHERE userId=?";
     const sqlParams = [pictureUrl, userId];
     db.query(sql, sqlParams, (error, result, rows) => {
         if(error) {
             res.status(500).json({ 'error': error.sqlMessage });
         } else {
-            res.status(201).json({ message: 'Image de profil modifiée !'});
+            res.status(201).json({ pictureUrl, userId, message: 'Image de profil modifiée !'});
         }
     });
 };

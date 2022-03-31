@@ -14,7 +14,7 @@ router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
 router.get('/profile/:userId', auth, userCtrl.getOneUser);
 router.get('/users/' , auth, userCtrl.getAllUsers);
-router.put('/:userId', auth, multer, userCtrl.updatePicture);
+router.put('/profile/:userId', auth, multer, userCtrl.updatePicture);
 router.delete('/:userId', auth, userCtrl.deleteAccount);
 
 module.exports = router;
