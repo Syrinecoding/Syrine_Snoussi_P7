@@ -18,7 +18,6 @@ exports.createPost = (req, res, next) => {
     });
 
 };
-// TODO comment ajouter createdAt et la date ?
 exports.listPosts = (req, res, next) => {
     const sql = "SELECT * FROM POSTS ORDER BY createdAt DESC";
     db.query(sql, (error, result, field) => {
