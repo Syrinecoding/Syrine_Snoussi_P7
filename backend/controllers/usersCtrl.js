@@ -150,3 +150,18 @@ exports.updatePicture = (req, res, next) => {
         }
     });
 };
+
+// TODO  enlever les droits d'admin après transfert si souhaité ?
+exports.updateAdmin = (req, res, next) => {
+    const isAdmin = req.body.isAdmin;
+    const userId = req.params.userId;
+
+    const sql = "UPDATE USERS SET isAdmin= ? WHERE userId= ?;";
+    const sqlParams = [isAdmin, userId];
+    db.query(sql, sqlParams, (error, result, fields) => {
+        if (error) {
+            res.status(500).json({ 'error': error.sqlMessage });
+        }
+        res.status(201).json({ message: "Droits d'administration transférés !"})
+    });
+}

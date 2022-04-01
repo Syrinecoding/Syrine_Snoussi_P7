@@ -2,6 +2,7 @@ const db = require('./configDb');
 
 /*Vérifier que l'utilisateur a les droits d'administrateur
 pour route changerAdmin*/
+// TODO isAdmin ne devrait pas être un booleen ?
 exports.isAdmin = (req, res, next) => {
     const userId = req.auth.userId;
 
@@ -89,5 +90,24 @@ exports.authComment = (req, res, next) => {
                 });
             }
         } 
+    });
+};
+exports.deleteUser = (req, res, next) => {
+    const userId = req.params.userId;
+    const currentUser = req.auth.userId;
+    const sql = "SELECT isAdmin FROM USERS WHERE userId= ?;";
+    const sqlParams = [userId];
+    db.query(sql, sqlParams, (error, result, fields) => {
+        if( error ) {
+            res.status(500).json({ 'error': error.sqlMessage});
+        } else {
+            if(result[0] === 1) {
+                next();
+            } else if (currentUser === userId) {
+                next();
+            } else {
+                res.status(403).json({'error': 'Accès refusé !'});
+            }            
+        }
     });
 };

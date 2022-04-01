@@ -39,3 +39,8 @@ exports.deletePost = (req, res, next) => {
         }
     });
 };
+// récupérer tous les commentaires d'un post
+
+// récupéer tous les likes d'un post
+
+// récupérer un post avec tous ses likes et commentaires
