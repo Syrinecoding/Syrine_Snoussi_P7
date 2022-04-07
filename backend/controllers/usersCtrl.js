@@ -108,6 +108,7 @@ exports.getOneUser = (req, res, next) => {
         }
     })
 };
+// TODO supprimer la photo et le fichier photo !
 exports.deleteAccount = (req, res, next) => {
     const userId = req.params.userId;
     const sql = "DELETE FROM USERS WHERE userId=?";

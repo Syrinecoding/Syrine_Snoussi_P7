@@ -12,10 +12,11 @@ exports.isAdmin = (req, res, next) => {
         if (error) {
             res.status(500).json({'error': error.sqlMessage });
         } else {
-            if(result[Ø].isAdmin === 1) {
+            if(result[0].isAdmin == 1) {
                 next();
             } else {
                 res.status(403).json({'error': 'Accès refusé !'});
+                //console.log(result[0]);
             }
         }
     });
@@ -23,20 +24,20 @@ exports.isAdmin = (req, res, next) => {
 /* Vérifier que l'utilisateur a le droit de supprimer le post (pour l'update aussi ?) :
 admin ou auteur pour route delete Post*/
 exports.authPost = (req, res, next) => {
-    const userIdreq = req.auth.userId;
-    const sql = "SELECT isAdmin FROM USERS WHERE userId=?;";
-    const sqlParams = [userIdreq];
+    const userId = req.auth.userId;
+    const sql = "SELECT isAdmin FROM USERS WHERE userId = ?;";
+    const sqlParams = [userId];
     db.query(sql, sqlParams, (error, result, fields) => {
         if (error) {
             res.status(500).json({'error': error.sqlMessage });
         } else {
-            if(result[Ø].isAdmin === 1) {
+            if(result[0].isAdmin == 1) {
                 // user is Admin
                 next();
             } else {
                 //user is not Admin
                 const postId = req.params.postId;
-                const sql2 = "SELECT userId FROM POSTS WHERE postId=?;";
+                const sql2 = "SELECT user_id FROM POSTS WHERE postId=?;";
                 const sqlParams2 = [postId];
                 db.query(sql2, sqlParams2, (error, result, fields) => {
                     if(error) {
@@ -45,7 +46,7 @@ exports.authPost = (req, res, next) => {
                         res.status(404).json({'error': "Ce post n'existe pas !"});
                     } else {
                         const postAuthor = result[0].userId;
-                        if (postAuthor === userIdreq) {
+                        if (postAuthor === userId) {
                             //user is postAuthor
                             next();
                         } else {

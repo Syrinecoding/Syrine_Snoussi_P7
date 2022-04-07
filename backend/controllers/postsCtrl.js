@@ -27,6 +27,7 @@ exports.listPosts = (req, res, next) => {
         res.status(200).json(result)
     });
 };
+// TODO supprimer la photo et le fichier photo
 exports.deletePost = (req, res, next) => {
     const postId = parseInt(req.params.postId, 10);
     const sql = "DELETE FROM  POSTS WHERE postId= ?;";
@@ -40,7 +41,30 @@ exports.deletePost = (req, res, next) => {
     });
 };
 // récupérer tous les commentaires d'un post
-
-// récupéer tous les likes d'un post
+exports.getAllComPosts = (req, res, next) => {
+    const sql = 
+    "SELECT \
+        p.title AS post_title, \
+        p.attachment AS post_attachment, \
+        p.createdAt AS post_createdAt, \
+        p.content AS post_content, \
+        c.userId AS comment_userId, \
+        c.createdAt AS comment_createdAt, \
+        c.content AS comment_content, \
+        u.picture AS comment_author_picture \
+        u.username AS comment_author, \
+    FROM POSTS p \
+    JOIN COMMENTS c \
+        ON p.postId = c.postId \
+    JOIN USERS \
+        ON u.userId = c.userId;";
+    db.query(sql, (error, result, fields) => {
+        if (error) {
+            res.status(500).json({'error': error.sqlMessage});
+        }
+        res.status(200).json(result);
+    });
+};
+// récupérer tous les likes d'un post
 
 // récupérer un post avec tous ses likes et commentaires
