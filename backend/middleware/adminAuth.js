@@ -21,6 +21,8 @@ exports.isAdmin = (req, res, next) => {
         }
     });
 };
+
+//TODO recuperer isAdmin dans req dans postCtrl..
 /* Vérifier que l'utilisateur a le droit de supprimer le post (pour l'update aussi ?) :
 admin ou auteur pour route delete Post*/
 exports.authPost = (req, res, next) => {
@@ -72,9 +74,10 @@ exports.authComment = (req, res, next) => {
             if(result[0] === 1) {
                 next();
             } else {
-                const commentId = req.param.commentId;
+                const commentId = req.params.commentId;
                 const sql2 = "SELECT userId FROM COMMENTS WHERE commentId = ?;";
                 const sqlParams2 = [commentId];
+                console.log(commentId);
                 db.query(sql2, sqlParams2, (error, result, fields) => {
                     if(error) {
                         res.status(500).json({'error': error.sqlMessage});

@@ -32,7 +32,7 @@ exports.signup = (req, res, next) => {
                 } else {
                     isAdmin = 0;
                 }
-
+                // mettre email en sqlParams
                 const sqlEmail = `SELECT * FROM USERS WHERE email='${email}'`;
                 db.query(sqlEmail, (err, results, rows) => {
                     if(results.length >0) {
