@@ -1,0 +1,58 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    
+}
+
+.card {
+    max-width: 100%;
+    width: 520px;
+    background: white;
+    border: 3px solid #ffc074;
+    border-radius: 35px;
+    padding: 32px;
+    .card__action {
+        color: #367CA1;
+        text-decoration: underline;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+}
+.button {
+    background: #367CA1;
+    color: white;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 15px;
+    border: none;
+    width: 100%;
+    padding: 16px;
+    transition: .4s background-color;
+}
+.button:hover {
+    cursor: pointer;
+    background: #5A99BA;
+}
+
+.button--disabled {
+    background: #cecece;
+    color: white;
+    width: 100%;
+    border: none;
+    padding: 16px;
+    border-radius: 8px;
+    font-weight: 800;
+    font-size: 15px;
+}
+.button--disabled:hover {
+    cursor: not-allowed;
+    background: #cecece;
+}

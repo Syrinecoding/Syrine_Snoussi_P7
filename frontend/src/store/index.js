@@ -1,5 +1,11 @@
 import { createStore } from 'vuex'
 
+const axios = require('axios')
+
+const instance = axios.create({
+  baseURL: 'http://localhost:8080/api/'
+})
+
 export default createStore({
   state: {
   },
@@ -8,6 +14,21 @@ export default createStore({
   mutations: {
   },
   actions: {
+    signUp: ({ commit }, user) => {
+      return new Promise((resolve, reject) => {
+        instance.post('/signup', user)
+          .then(function (response) {
+            console.log(response.data)
+            console.log(user)
+            commit('setUser', response.data.username)
+            resolve(response)
+          })
+          .catch(function (error) {
+            console.log(error)
+            reject(error)
+          })
+      })
+    }
   },
   modules: {
   }

@@ -4,24 +4,19 @@
     <nav class="top-bar-nav">
       <router-link to="/">Accueil <Icon icon="ci:home-alt-fill" color="#f24e1e" height="30" /></router-link> |
       <router-link to="/users">Collègues <Icon icon="gis:globe-users" color="#f24e1e" height="30" /></router-link> |
-      <router-link to="/profile">Profil <img src="./assets/img/ProfilTiny.png" alt="photo de profil"></router-link>
+      <router-link to="/profile">Profil <img src="./assets/img/ProfilTiny.png" alt="photo de profil"></router-link> |
+      <router-link to="/signup">Compte</router-link>
     </nav>
   </header>
   <router-view/>
 </template>
 
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+
 .top-bar{
   display: flex;
   justify-content: space-between;
-  align-items:flex-end;
+  align-items: flex-start;
   //border: 3px solid green;
     .top-bar-logo {
       width: 22rem;
