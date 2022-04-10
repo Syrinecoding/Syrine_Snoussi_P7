@@ -14,6 +14,7 @@ export default createStore({
       token: ''
     },
     userProfile: {
+      userId: Number,
       username: '',
       picture: '',
       position: '',
@@ -72,7 +73,7 @@ export default createStore({
       })
     },
     getUserInfos: ({ commit }) => {
-      instance.get('/user/profile')
+      instance.get('/user/profile/:userId')
         .then(function (response) {
           // console.log(response.data)
           // console.log(user)
