@@ -18,6 +18,7 @@
     border: 3px solid #ffc074;
     border-radius: 35px;
     padding: 32px;
+    margin: 80px auto;
     .card__action {
         color: #367CA1;
         text-decoration: underline;
@@ -25,6 +26,12 @@
             cursor: pointer;
         }
     }
+}
+.form-row {
+    display: flex;
+    margin: 16px 0px;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 .button {
     background: #367CA1;

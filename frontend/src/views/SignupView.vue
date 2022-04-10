@@ -13,18 +13,28 @@
     <div class="form-row">
       <input v-model="password" class="form-row__input" type="password" placeholder="Mot de passe" />
     </div>
+    <div class="form-row" v-if="mode == 'login' && status == 'error_login'">
+      Adresse mail et/ou mot de passe invalide
+    </div>
+    <div class="form-row" v-if="mode == 'create' && status == 'error_create'">
+      Vous êtes déjà inscrit !
+    </div>
     <div class="form-row">
-      <button class="button" :class="{'button--disabled' : !validFields}" v-if="mode == 'login'">
-        <span>Connection</span>
+      <button @click="logIn()" class="button" :class="{'button--disabled' : !validFields}" v-if="mode == 'login'">
+        <span v-if="status == 'loading'">Connection en cours...</span>
+        <span v-else>Connection</span>
       </button>
       <button @click="signUp()" class="button" :class="{'button--disabled' : !validFields}" v-else>
-        <span>Créer un compte</span>
+        <span v-if="status == 'loading'">Création en cours...</span>
+        <span v-else>Créer un compte</span>
       </button>
     </div>
   </div>
 </template>
 
 <script>
+
+import { mapState } from 'vuex'
 
 export default {
   name: 'LoginView',
@@ -51,7 +61,8 @@ export default {
           return false
         }
       }
-    }
+    },
+    ...mapState(['status'])
   },
   methods: {
     switchToCreateAccount () {
@@ -60,11 +71,27 @@ export default {
     switchToLogin () {
       this.mode = 'login'
     },
+    logIn () {
+      const self = this
+      this.$store.dispatch('logIn', {
+        email: this.email,
+        password: this.password
+      }).then(function (response) {
+        self.$router.push('/profile')
+      }).catch(function (error) {
+        console.log(error)
+      })
+    },
     signUp () {
+      const self = this
       this.$store.dispatch('signUp', {
         email: this.email,
         username: this.username,
         password: this.password
+      }).then(function (response) {
+        self.logIn()
+      }).catch(function (error) {
+        console.log(error)
       })
     }
   }
@@ -75,12 +102,7 @@ export default {
 .card {
   margin: 80px auto;
 }
-.form-row {
-  display: flex;
-  margin: 16px 0px;
-  gap: 16px;
-  flex-wrap: wrap;
-}
+
 .form-row__input {
   padding: 8px;
   border: none;
