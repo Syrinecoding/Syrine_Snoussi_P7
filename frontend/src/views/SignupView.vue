@@ -77,7 +77,8 @@ export default {
         email: this.email,
         password: this.password
       }).then(function (response) {
-        self.$router.push('/user/profile')
+        console.log(response.data.userId)
+        self.$router.push('/profile/25')
       }).catch(function (error) {
         console.log(error)
       })

@@ -66,7 +66,7 @@ export default createStore({
         instance.post('/user/login', userProfile)
           .then(function (response) {
             // console.log(response.data)
-            // console.log(user)
+            // console.log(userProfile)
             commit('setStatus', '')
             commit('logUser', response.data)
             resolve(response)
