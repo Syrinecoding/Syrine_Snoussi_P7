@@ -6,13 +6,28 @@ const instance = axios.create({
   baseURL: 'http://localhost:3000/api/'
 })
 
+let user = localStorage.getItem('user')
+if (!user) {
+  user = {
+    userId: -1,
+    token: ''
+  }
+} else {
+  try {
+    user = JSON.parse(user)
+    instance.defaults.headers.common.Authorization = user.token
+  } catch (ex) {
+    user = {
+      userId: -1,
+      token: ''
+    }
+  }
+}
+
 export default createStore({
   state: {
     status: '',
-    user: {
-      userId: -1,
-      token: ''
-    },
+    user: user,
     userProfile: {
       userId: Number,
       username: '',
@@ -29,18 +44,26 @@ export default createStore({
     },
     logUser: function (state, user) {
       instance.defaults.headers.common.Authorization = user.token
+      localStorage.setItem('user', JSON.stringify(user))
       state.user = user
     },
     userProfile: function (state, userProfile) {
       state.userProfile = userProfile
+    },
+    logout: function (state) {
+      state.user = {
+        userId: -1,
+        token: ''
+      }
+      localStorage.removeItem('user')
     }
   },
   actions: {
-    logIn: ({ commit }, user) => {
+    logIn: ({ commit }, userProfile) => {
       commit('setStatus', 'loading')
       // TODO ne faut-il pas utiliser un await pour attendre que user ait fini de taper ?
       return new Promise((resolve, reject) => {
-        instance.post('/user/login', user)
+        instance.post('/user/login', userProfile)
           .then(function (response) {
             // console.log(response.data)
             // console.log(user)
@@ -55,10 +78,10 @@ export default createStore({
           })
       })
     },
-    signUp: ({ commit }, user) => {
+    signUp: ({ commit }, userProfile) => {
       commit('setStatus', 'loading')
       return new Promise((resolve, reject) => {
-        instance.post('/user/signup', user)
+        instance.post('/user/signup', userProfile)
           .then(function (response) {
             // console.log(response.data)
             // console.log(user)
@@ -73,11 +96,12 @@ export default createStore({
       })
     },
     getUserInfos: ({ commit }) => {
-      instance.get('/user/profile/:userId')
+      instance.get(`/user/profile/${this.user.userId}`)
+      console.log(this.user)
         .then(function (response) {
-          // console.log(response.data)
-          // console.log(user)
-          commit('userProfile', response.data.userId)
+          console.log(response.data)
+          commit('userProfile', response.data.user)
+          console.log(response.data.user.userId)
         })
         .catch(function (error) {
           console.log(error)

@@ -1,8 +1,8 @@
 <template>
     <div class="card">
         <h1 class="card__title">Mon profil</h1>
-        <p>Nom</p>
-        <p>Fonction</p>
+        <p>{{ user.username }}</p>
+        <p>{{ user.position }}</p>
         <img src="../assets/img/cats_00016.jpg" alt="chat">
         <div class="form-row">
           <button class="button">Déconnexion</button>

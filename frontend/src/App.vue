@@ -4,7 +4,7 @@
     <nav class="top-bar-nav">
       <router-link to="/">Accueil <Icon icon="ci:home-alt-fill" color="#f24e1e" height="30" /></router-link> |
       <router-link to="/users">Collègues <Icon icon="gis:globe-users" color="#f24e1e" height="30" /></router-link> |
-      <router-link to="/profile">Profil <img src="./assets/img/ProfilTiny.png" alt="photo de profil"></router-link> |
+      <router-link to="/profile/:userId">Profil <img src="./assets/img/ProfilTiny.png" alt="photo de profil"></router-link> |
       <router-link to="/signup">Compte</router-link>
     </nav>
   </header>
