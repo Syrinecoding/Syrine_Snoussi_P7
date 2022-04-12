@@ -78,7 +78,7 @@ export default {
         password: this.password
       }).then(function (response) {
         console.log(response.data.userId)
-        self.$router.push(`/profile/${response.data.userId}`)
+        self.$router.push(`/profile/${response.data.userID}`)
       }).catch(function (error) {
         console.log(error)
       })

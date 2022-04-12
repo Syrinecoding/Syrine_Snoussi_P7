@@ -1,12 +1,10 @@
 <template>
-  <div>
-    <h1>Mes collègues</h1>
-    <div v-for="user in users" :key="user.userID" class="card flex">
-      <!-- <img src="../assets/img/ProfilTiny.png" alt=""> -->
-      <div class="box">
-        <p class="form-row">{{ user.username }}</p>
-        <p class="form-row">{{ user.position }}</p>
-      </div>
+  <h1>Mes collègues</h1>
+  <div v-for="user in users" :key="user.userID" class="card flex">
+    <!-- <img src="../assets/img/ProfilTiny.png" alt=""> -->
+    <div class="box">
+      <p class="form-row">{{ user.username }}</p>
+      <p class="form-row">{{ user.position }}</p>
     </div>
   </div>
 </template>
