@@ -27,7 +27,10 @@ if (!user) {
 export default createStore({
   state: {
     status: '',
-    user: user,
+    user: {
+      userId: '',
+      token: ''
+    },
     userProfile: {
       userId: Number,
       username: '',
@@ -65,8 +68,8 @@ export default createStore({
       return new Promise((resolve, reject) => {
         instance.post('/user/login', userProfile)
           .then(function (response) {
-            // console.log(response.data)
-            // console.log(userProfile)
+            console.log(response.data)
+            console.log(userProfile)
             commit('setStatus', '')
             commit('logUser', response.data)
             resolve(response)
@@ -95,13 +98,13 @@ export default createStore({
           })
       })
     },
-    getUserInfos: ({ commit }) => {
-      instance.get(`/user/profile/${this.user.userId}`)
+    getUserInfos: ({ commit }, user) => {
+      instance.get('/user/profile', { user: user.userId })
       console.log(this.user)
         .then(function (response) {
-          console.log(response.data)
+          console.log(response)
           commit('userProfile', response.data.user)
-          console.log(response.data.user.userId)
+          // console.log(response.data.user.userId)
         })
         .catch(function (error) {
           console.log(error)
