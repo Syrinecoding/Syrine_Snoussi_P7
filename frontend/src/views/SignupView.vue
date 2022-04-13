@@ -104,17 +104,4 @@ export default {
   margin: 80px auto;
 }
 
-.form-row__input {
-  padding: 8px;
-  border: none;
-  border-radius: 8px;
-  background: #f2f2f2;
-  font-weight: 500;
-  font-size: 16px;
-  flex: 1;
-  min-width: 100px;
-}
-.form-row__input::placeholder {
-  color: #2c3e50;
-}
 </style>
