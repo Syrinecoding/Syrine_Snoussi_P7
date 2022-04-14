@@ -104,7 +104,7 @@ exports.getOneUser = (req, res, next) => {
         } else if(results.length === 0) {
             res.status(401).json({ 'error': "L'utilisateur n'existe pas !"});
         } else {
-            res.status(200).json(results)
+            res.status(200).json({user: results[0]})
         }
     })
 };

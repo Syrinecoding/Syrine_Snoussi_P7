@@ -32,7 +32,7 @@ export default createStore({
       token: ''
     },
     userProfile: {
-      userId: Number,
+      userId: '',
       username: '',
       picture: '',
       position: '',
@@ -97,20 +97,21 @@ export default createStore({
             reject(error)
           })
       })
-    },
-    getUserInfos: ({ commit }, user) => {
-      instance.get('/user/profile', { user: user.userId })
-      console.log(this.user)
-        .then(function (response) {
-          console.log(response)
-          commit('userProfile', response.data.user)
-          // console.log(response.data.user.userId)
-        })
-        .catch(function (error) {
-          console.log(error)
-          commit('userProfile', 'error_profile')
-        })
     }
+    // getUserInfos: ({ commit }) => {
+    //   // console.log('récup user', user)
+    //   instance.get(`/user/profile/${this.user.userId}`)
+    //   console.log('getUserInfos', this.user)
+    //     .then(function (response) {
+    //       console.log(response)
+    //       commit('userProfile', response.data.user)
+    //       console.log(response.data.user.userId)
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error)
+    //       commit('userProfile', 'error_profile')
+    //     })
+    // }
   },
   modules: {
   }
