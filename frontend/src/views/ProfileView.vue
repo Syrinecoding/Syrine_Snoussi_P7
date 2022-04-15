@@ -12,7 +12,7 @@
     </div>
     <p @click="show = !show">Modifier mes informations</p>
     <div class="form-row">
-      <button class="button">Déconnexion</button>
+      <button @click="logout()" class="button">Déconnexion</button>
     </div>
   </div>
 </template>
@@ -31,16 +31,6 @@ export default {
       user: {}
     }
   },
-  methods: {
-    // updateImg () {
-    //   const token = this.$store.state.user.token
-    //   const fd = new FormData()
-    //   fd.append('image', this.selectedFile, this.selectedFile.name)
-    //   axios.put(`http://localhost:3000/api/user/profile/${this.$store.state.user.userId}`, fd, { headers: { Authorization: `Bearer ${token}` } })
-    //     .then((response) => { console.log(response) })
-    //     .catch((error) => { this.error = error.response.data })
-    // }
-  },
   mounted: function () {
     console.log('ProfileView', this.$store.state.user)
     if (this.$store.state.user.userId === -1) {
@@ -54,6 +44,12 @@ export default {
         this.$store.commit('userProfile', res.data.user)
       })
       .catch(err => console.log(err.message))
+  },
+  methods: {
+    logout: function () {
+      this.$store.commit('logout')
+      this.$router.push('/signup')
+    }
   }
 }
 </script>
