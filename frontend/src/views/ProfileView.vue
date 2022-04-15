@@ -1,8 +1,8 @@
 <template>
   <div class="card">
     <h1 class="card__title">Mon profil</h1>
-    <img v-if="user.picture == null" src="../assets/img/cats_00016.jpg" alt="chat">
-    <img v-else :src="user.picture" alt="photo de profil">
+    <!-- <img v-if="user.picture == null" src="../assets/img/cats_00016.jpg" alt="chat"> -->
+    <img :src="user.picture" alt="photo de profil">
     <div>
       <file-upload />
     </div>

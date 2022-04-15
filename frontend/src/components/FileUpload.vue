@@ -4,7 +4,7 @@
     <form @submit.prevent="onSubmit" enctype="multipart/form-data">
       <div class="form-row">
         <label>
-          <input type="file" name="image" id="image" @change="onSelect ($event)"/>
+          <input type="file" name="image" id="image" class="form-row__input" @change="onSelect ($event)"/>
         </label><br>
       </div>
       <div class="form-row">
@@ -21,18 +21,18 @@ export default {
   data () {
     return {
       user: {},
-      FILE: ''
+      file: ''
     }
   },
   methods: {
     onSelect (event) {
-      this.FILE = event.target.files[0]
+      this.file = event.target.files[0]
       console.log(event)
     },
     onSubmit () {
       const token = this.$store.state.user.token
       const fd = new FormData()
-      fd.append('image', this.FILE, this.FILE.name)
+      fd.append('image', this.file, this.file.name)
       axios.put(`http://localhost:3000/api/user/profile/${this.$store.state.user.userId}`,
         fd,
         {
