@@ -43,6 +43,7 @@ export default {
         }
       ).then(function () {
         console.log('SUCCES !!')
+        // document.location.reload()
       }).catch(function () {
         console.log('ECHEC !!')
       })

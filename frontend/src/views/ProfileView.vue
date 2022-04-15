@@ -1,7 +1,6 @@
 <template>
   <div class="card">
     <h1 class="card__title">Mon profil</h1>
-    <!-- <img v-if="user.picture == null" src="../assets/img/cats_00016.jpg" alt="chat"> -->
     <img :src="user.picture" alt="photo de profil">
     <div>
       <file-upload />
@@ -10,7 +9,6 @@
       <p>{{ user.username }}</p>
       <p>{{ user.position }}</p>
     </div>
-    <p @click="show = !show">Modifier mes informations</p>
     <div class="form-row">
       <button @click="logout()" class="button">Déconnexion</button>
     </div>

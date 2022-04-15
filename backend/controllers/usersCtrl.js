@@ -136,7 +136,7 @@ exports.getAllUsers = (req, res, next) => {
 };
 
 exports.updatePicture = (req, res, next) => {
-    const pictureUrl = `/images/${req.file.filename}`;
+    const pictureUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
     // Créer 2 dossiers multer : profil et post
     console.log(pictureUrl);
     const userId = req.params.userId;
