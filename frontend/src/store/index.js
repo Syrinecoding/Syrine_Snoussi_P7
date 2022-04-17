@@ -27,10 +27,7 @@ if (!user) {
 export default createStore({
   state: {
     status: '',
-    user: {
-      userId: '',
-      token: ''
-    },
+    user: user,
     userProfile: {
       userId: '',
       username: '',
