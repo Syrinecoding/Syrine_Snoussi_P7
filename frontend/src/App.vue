@@ -1,7 +1,7 @@
 <template>
   <header class="top-bar">
     <img src="./assets/img/Logo.png" alt="Logo Groupomania" class="top-bar-logo">
-    <nav class="top-bar-nav">
+    <nav class="top-bar">
       <router-link to="/">Accueil <Icon icon="ci:home-alt-fill" color="#f24e1e" height="30" /></router-link> |
       <router-link to="/users">Collègues <Icon icon="gis:globe-users" color="#f24e1e" height="30" /></router-link> |
       <router-link to="/profile/:userId">Profil <img src="./assets/img/ProfilTiny.png" alt="photo de profil"></router-link> |
@@ -24,11 +24,14 @@
     }
     img {
       width: 3rem;
+      display: inline;
+      vertical-align: middle;
     }
 }
 
 nav {
   padding: 20px;
+  width: 25rem;
   //border: 3px solid red;
   a {
     font-weight: bold;
