@@ -88,9 +88,33 @@ img {
     border: none;
     padding: 8px;
 }
+.btn {
+    background: white;
+    border: none;  
+    cursor: pointer; 
+}
+
+.posting {
+    border: 3px solid #ffc074;
+    border-radius: 35px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 700px;
+}
 .imgCirc {
     width: 100px;
     height: 100px;
     border-radius: 50px;
     object-fit: cover;
+}
+.alert--success {
+    width: 100%;
+    background-color: #5BC88E;
+    color: white;
+    font-weight: 800;
+    padding: 15px;
+    border-radius: 15px;
 }

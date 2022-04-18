@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import PostInput from '../components/PostInput.vue'
+import PostInput from '@/components/PostInput.vue'
 // @ is an alias to /src
 export default {
   name: 'HomeView',
