@@ -3,17 +3,20 @@
     Publication postée !
   </div>
   <div class="posting">
-    <form @submit.prevent="createPost" class="form-row" enctype="multipart/form-data">
-      <img  class="imgCirc" :src="$store.state.userProfile.picture" alt="photo de profil">
-      <textarea
-        id="content"
-        class="form-row__input"
-        cols="10"
-        rows="5"
-        v-model="content"
-        v-on:keyup.enter="createPost"
-        placeholder="Faites-nous rire !">
-      </textarea>
+    <img  class="imgCirc" :src="$store.state.userProfile.picture" alt="photo de profil">
+    <form @submit.prevent="createPost" enctype="multipart/form-data">
+      <div class="column">
+        <input type="text" class="form-row__input" placeholder="Votre titre">
+        <textarea
+          id="content"
+          class="form-row__input"
+          cols="45"
+          rows="5"
+          v-model="content"
+          v-on:keyup.enter="createPost"
+          placeholder="Faites-nous rire !">
+        </textarea>
+      </div>
     </form>
     <div>
       <button @click="upload = !upload" class="btn"><Icon icon="fa-solid:photo-video" color="#367ca1" height="30" /></button>
@@ -86,11 +89,33 @@ export default {
 </script>
 
 <style scoped>
-.form-row {
+.posting {
+  border: 3px solid #ffc074;
+  border-radius: 35px;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 16px  0px;
+  gap: 16px;
+  width: 700px;
+}
+/* .form-row {
   padding: 10px;
   border-radius: 35px;
   align-items: center;
   width: 600px;
-};
-
+}; */
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.upload {
+  width: 700px;
+}
+#image {
+  width: 500px;
+}
 </style>

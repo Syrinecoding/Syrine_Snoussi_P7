@@ -20,11 +20,12 @@ exports.createPost = (req, res, next) => {
 };
 exports.listPosts = (req, res, next) => {
     const sql = "SELECT * FROM POSTS ORDER BY createdAt DESC";
-    db.query(sql, (error, result, field) => {
+    db.query(sql, (error, results, field) => {
         if(error) {
             return res.status(400).json({ 'error': error.sqlMessage });
         }
-        res.status(200).json(result)
+        res.status(200).json({
+            posts : results})
     });
 };
 // TODO supprimer la photo et le fichier photo

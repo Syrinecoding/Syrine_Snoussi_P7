@@ -2,7 +2,7 @@
   <div v-for="post in posts" :key="post.postId" class="post">
     <div>
       <h3>{{ post.title }}</h3>
-      <img class="post__img" src="../assets/img/cats_00041.jpg" alt="chat roux">
+      <img class="post__img" :src="post.attachment" alt="image">
       <p class="post__content">{{ post.content }}</p>
     </div>
     <div class="post__reactions">
@@ -51,7 +51,10 @@ export default {
 }
 .post__img {
   border-radius: 35px;
-  margin: 0 auto,
+  margin: 0 auto;
+  width: 600px;
+  height: 600px;
+  object-fit: cover;
 }
 .post__reactions {
   display: flex;
