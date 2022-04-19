@@ -22,6 +22,16 @@ exports.likePost = (req, res, next) => {
                 }
                 res.status(200).json({ message : 'Publication likée !'});
             });
+            // const addLike = {
+            //     likes : + 1
+            // };
+            // const addSql = "INSERT INTO POSTS SET ?;"
+            // db.query(addSql, addLike, (error, result, fields) => {
+            //     if(error) {
+            //         res.status(400).json({'error3': error.sqlMessage});
+            //     }
+            //     res.status(200).json({ message : 'Like ajouté !'})
+            // });
         } else {
             const sql = "DELETE FROM LIKES WHERE postId= ? AND userId= ?;";
             db.query(sql, sqlParams, (error, results, fields) => {
@@ -30,6 +40,16 @@ exports.likePost = (req, res, next) => {
                 }
                 res.status(200).json({ message : 'Like supprimé !'});
             });
+            // const dltLike = {
+            //     likes : - 1
+            // };
+            // const deleteSql = "INSERT INTO POSTS SET ?;"
+            // db.query(deleteSql, dltLike, (error, result, fields) => {
+            //     if(error) {
+            //         res.status(400).json ({ 'error4': error.sqlMessage });
+            //     }
+            //     res.status(200).json({ message : 'Like supprimé !'})
+            // });
         }
     });
 };

@@ -11,12 +11,23 @@
     <p class="post__content">{{ post.content }}</p>
     <div class="post__reactions">
       <div class="post__likes">
-        <span class="post__number">{{likes.length}}</span>
+        <span class="post__number">{{ post.likes}}</span>
         <button class="btn"><Icon icon="wpf:like" color="#f24e1e" height="30" class="icon"/>J'aime</button>
       </div>
       <!-- au click : J'aime s'incremente -->
-      <p class="post__comments"><Icon icon="fe:comment" color="#f24e1e" height="30" class="icon"/>Je commente</p>
-      <!-- au click : Je commente switch vers input -->
+      <button @click="comment = !comment" class="btn"><Icon icon="fe:comment" color="#f24e1e" height="30" class="icon"/>Je commente</button>
+      <form @submit.prevent="createComment" method="post">
+        <div v-if="comment" class="comment">
+          <div class="form-row">
+            <label>
+              <input type="text" name="" id="" class="form-row__input"/>
+            </label><br>
+          </div>
+          <div class="form-row">
+            <button class="button">Valider</button>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </template>
@@ -32,7 +43,8 @@ export default {
     return {
       user: {},
       posts: [],
-      likes: []
+      likes: [],
+      comment: false
     }
   },
   components: {
@@ -99,10 +111,16 @@ export default {
 }
 .post__reactions {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 30px;
 }
 .post__number {
   color: #F24E1E;
   font-weight: bold;
+}
+.comment {
+  width: 600px;
+  padding: 30px;
 }
 </style>
