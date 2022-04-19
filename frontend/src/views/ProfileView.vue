@@ -2,12 +2,13 @@
   <div class="card">
     <h1 class="card__title">Mon profil</h1>
     <img :src="user.picture" alt="photo de profil">
-    <div>
+    <button @click="upload = !upload" class="btn"><Icon icon="ic:round-add-a-photo" color="#367ca1" height="30" /></button>
+    <div v-if="upload">
       <file-upload />
     </div>
     <div>
-      <p>{{ user.username }}</p>
-      <p>{{ user.position }}</p>
+      <h2>{{ user.username }}</h2>
+      <h3>{{ user.position }}</h3>
     </div>
     <div class="form-row">
       <button @click="logout()" class="button">Déconnexion</button>
@@ -18,15 +19,18 @@
 <script>
 import FileUpload from '../components/FileUpload.vue'
 import axios from 'axios'
+import { Icon } from '@iconify/vue'
 
 export default {
   name: 'ProfileView',
   components: {
-    FileUpload
+    FileUpload,
+    Icon
   },
   data () {
     return {
-      user: {}
+      user: {},
+      upload: false
     }
   },
   mounted: function () {
@@ -53,5 +57,13 @@ export default {
 </script>
 
 <style scoped>
-
+.card__title {
+  padding-bottom: 20px;
+}
+img {
+  max-width: 100%;
+  width: 500px;
+  border-radius: 35px;
+  margin: 0 auto;
+}
 </style>

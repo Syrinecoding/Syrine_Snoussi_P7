@@ -122,7 +122,7 @@ exports.deleteAccount = (req, res, next) => {
     });
 };
 exports.getAllUsers = (req, res, next) => {
-    const sql = "SELECT userID, username, picture, position FROM USERS;";
+    const sql = "SELECT userID, username, picture, position FROM USERS ORDER by username ASC;";
     db.query(sql, (error, results, fields) => {
         if(error) {
             res.status(500).json({'error': error.sqlMessage });

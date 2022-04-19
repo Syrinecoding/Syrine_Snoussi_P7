@@ -2,10 +2,10 @@
   <header class="top-bar">
     <img src="./assets/img/Logo.png" alt="Logo Groupomania" class="top-bar-logo">
     <nav class="top-bar">
-      <router-link to="/">Accueil <Icon icon="ci:home-alt-fill" color="#f24e1e" height="30" /></router-link> |
-      <router-link to="/users">Collègues <Icon icon="gis:globe-users" color="#f24e1e" height="30" /></router-link> |
-      <router-link to="/profile/:userId">Profil <img :src="userProfile.picture" alt="photo de profil"></router-link> |
-      <router-link to="/signup">Compte</router-link>
+      <router-link to="/">Accueil <Icon icon="ci:home-alt-fill" color="#f24e1e" height="30" class="icon" /></router-link> |
+      <router-link to="/users">Collègues <Icon icon="gis:globe-users" color="#f24e1e" height="30" class="icon"/></router-link> |
+      <router-link to="/profile/:userId">Profil <img :src="this.$store.state.userProfile.picture" alt="photo de profil" class="tinyCirc"></router-link> |
+      <router-link to="/signup">Login<Icon icon="ri:login-circle-fill" color="#f24e1e" height="30" class="icon" /></router-link>
     </nav>
   </header>
   <router-view/>
@@ -31,7 +31,7 @@
 
 nav {
   padding: 20px;
-  width: 25rem;
+  width: 35rem;
   //border: 3px solid red;
   a {
     font-weight: bold;
@@ -52,13 +52,14 @@ export default {
   data: () => {
     return {
       user: {},
-      userProfile: {
-        picture: ''
-      }
+      userProfile: {}
     }
   },
   components: {
     Icon
+  },
+  mounted () {
+    console.log('nav :', this.$store.state.userProfile)
   }
 }
 </script>

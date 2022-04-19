@@ -19,7 +19,11 @@ exports.createPost = (req, res, next) => {
 
 };
 exports.listPosts = (req, res, next) => {
-    const sql = "SELECT * FROM POSTS ORDER BY createdAt DESC";
+    const sql = 
+        "SELECT postId, title, content, attachment, user_id, createdAt, username, picture \
+        FROM POSTS \
+        LEFT JOIN USERS \
+            ON POSTS.user_id = USERS.userId \ ORDER BY createdAt DESC";
     db.query(sql, (error, results, field) => {
         if(error) {
             return res.status(400).json({ 'error': error.sqlMessage });

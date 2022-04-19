@@ -1,6 +1,5 @@
 <template>
   <div class="file">
-    <h3>Modifier ma photo</h3>
     <form @submit.prevent="onSubmit" enctype="multipart/form-data">
       <div class="form-row">
         <label>

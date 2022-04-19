@@ -38,10 +38,11 @@ exports.getLikes = (req, res, next) => {
 
     const sql = "SELECT userId FROM LIKES WHERE postId= ?;";
     const sqlParams = [postId];
-    db.query(sql, sqlParams, (error, result, fields) => {
+    db.query(sql, sqlParams, (error, results, fields) => {
         if(error) {
             res.status(404).json({ 'error': error.sqlMessage });
         }
-        res.status(200).json(result);
+        res.status(200).json({
+            likes : results});
     });
 };
