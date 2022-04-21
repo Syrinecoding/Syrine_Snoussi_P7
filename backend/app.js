@@ -20,8 +20,9 @@ const limiter = rateLimit({
 });
 // appel de la méthode express
 const app = express();
-app.use(helmet());
+
 app.use(cors());
+app.use(helmet());
 app.use(limiter);
 // Prévention des erreurs CORS
 // app.use((req, res, next) => {
@@ -31,9 +32,9 @@ app.use(limiter);
 //     res.setHeader('Cross-Origin-Resource-Policy', 'cross-origin');
 //     next();
 // });
-app.use(express.json());
-app.use(helmet());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/user', userRoutes);

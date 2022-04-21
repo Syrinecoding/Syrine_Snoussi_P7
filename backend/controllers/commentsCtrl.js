@@ -4,7 +4,7 @@ exports.createComment = (req, res, next) => {
     const content = req.body.content;
     const userId = req.auth.userId;
     const postId = req.params.postId;
-
+    // console.log('content', content);
     const sql = "INSERT INTO COMMENTS (content, userId, postId) VALUES (?, ?, ?);";
     const sqlParams = [content, userId, postId];
     db.query(sql, sqlParams, (error, result, fields) => {

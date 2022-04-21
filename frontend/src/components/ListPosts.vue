@@ -58,7 +58,7 @@ export default {
   methods: {
     like (postId) {
       const token = this.$store.state.user.token
-      axios.post(`http://localhost:3000/api/post/${postId}/like`, {
+      axios.post(`http://localhost:3000/api/post/${postId}/like`, {}, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -68,29 +68,12 @@ export default {
     },
     addComment (postId) {
       const token = this.$store.state.user.token
-      axios.post(`http://localhost:3000/api/post/${postId}/comment/`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        },
-        body: this.contentCom
+      axios.post(`http://localhost:3000/api/post/${postId}/comment/`, { content: this.contentCom }, {
+        headers: { Authorization: `Bearer ${token}` }
       }).then((response) => {
         console.log(response)
       }).catch((error) => console.log(error))
     }
-    // getLikes () {
-    //   const token = this.$store.state.user.token
-    //   console.log('postId', this.post.postId)
-    //   axios.get(`http://localhost:3000/api/post/ + ${this.post.postId} /like/`,
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`
-    //       }
-    //     }
-    //   ).then((res) => {
-    //     console.log(res.data)
-    //     this.likes = res.data.likes
-    //   }).catch(err => console.log(err.message))
-    // }
   },
   mounted () {
     const token = this.$store.state.user.token
@@ -104,21 +87,6 @@ export default {
       ).then((res) => {
         console.log(res.data)
         this.posts = res.data.posts
-        // console.log(res.data.posts)
-        // const postsArray = res.data.posts
-        // for (const p of postsArray) {
-        //   console.log(p.postId)
-        //   axios.get(`http://localhost:3000/api/post/${p.postId}/likes`, {
-        //     headers: {
-        //       Authorization: `Bearer ${token}`
-        //     }
-        //   }
-        //   ).then((res) => {
-        //     console.log(res.data)
-        //     this.likes = res.data.likes
-        //     // console.log(res.data.likes)
-        //   })
-        // }
       }).catch(err => console.log(err.message))
   }
 }
