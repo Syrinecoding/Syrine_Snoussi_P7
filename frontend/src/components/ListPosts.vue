@@ -13,10 +13,11 @@
     </router-link>
     <div class="post__reactions">
       <div class="post__likes">
-        <span class="post__number"></span>
+        <!-- appel de la fonction qui requête les likes -->
+        <!-- <span class="post__number">{{ likesNum(post.postId) }}</span> -->
+        <span class="post__number">{{ post.likes }}</span>
         <button @click="like(post.postId)" class="btn"><Icon icon="wpf:like" color="#f24e1e" height="30" class="icon"/>J'aime</button>
       </div>
-      <!-- au click : J'aime s'incremente -->
       <button @click="comment = !comment" class="btn"><Icon icon="fe:comment" color="#f24e1e" height="30" class="icon"/>Je commente</button>
     </div>
     <form @submit.prevent="addComment(post.postId)" method="post">
@@ -31,6 +32,11 @@
         </div>
       </div>
     </form>
+    <div>
+      <img src="" alt="photo de profil" class="tinyCirc">
+      <p>username</p>
+      <p>contenu</p>
+    </div>
   </div>
 </template>
 
@@ -46,16 +52,31 @@ export default {
       user: {},
       posts: [],
       likes: [],
-      postId: '',
+      postId: null,
       comment: false,
       content: '',
-      contentCom: ''
+      contentCom: '',
+      comments: []
     }
   },
   components: {
     Icon
   },
   methods: {
+    // fonction qui requête l'API pour la table des likes par post
+    // likesNum (postId) {
+    //   const token = this.$store.state.user.token
+    //   axios.get(`http://localhost:3000/api/post/${postId}/likes`, {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`
+    //     }
+    //   }).then((response) => {
+    //     console.log(response)
+    //     this.likes = response.data.likes
+    //     console.log(response.data.likes.length)
+    //     // return this.likesNumber
+    //   }).catch((error) => console.log(error))
+    // },
     like (postId) {
       const token = this.$store.state.user.token
       axios.post(`http://localhost:3000/api/post/${postId}/like`, {}, {
@@ -69,6 +90,14 @@ export default {
     addComment (postId) {
       const token = this.$store.state.user.token
       axios.post(`http://localhost:3000/api/post/${postId}/comment/`, { content: this.contentCom }, {
+        headers: { Authorization: `Bearer ${token}` }
+      }).then((response) => {
+        console.log(response)
+      }).catch((error) => console.log(error))
+    },
+    getComments (postId) {
+      const token = this.$store.state.user.token
+      axios.get(`http://localhost:3000/api/post/${postId}/comments`, {
         headers: { Authorization: `Bearer ${token}` }
       }).then((response) => {
         console.log(response)

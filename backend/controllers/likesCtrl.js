@@ -23,8 +23,6 @@ exports.likePost = (req, res, next) => {
                     userId : userId,
                 };
                 const sql = "INSERT INTO LIKES SET ?;"
-        
-
                 db.query(sql, likeParams, (error, result, fields) => {
                     if(error) {
                         return res.status(400).json({ 'error': error.sqlMessage, code: 2 });
