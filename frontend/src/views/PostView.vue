@@ -1,11 +1,11 @@
 <template>
   <h1>Publication</h1>
-  <p>Publication Id {{ postId }}</p>
+  <p>Publication Id {{ post.postId }}</p>
 </template>
 
 <script>
 export default {
-  props: ['postId'],
+  props: ['post'],
   data: () => {
     return {}
   }
