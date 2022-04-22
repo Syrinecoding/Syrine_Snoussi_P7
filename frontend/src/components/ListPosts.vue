@@ -1,6 +1,6 @@
 <template>
   <div v-for="post in posts" :key="post.postId" class="post">
-    <router-link :to="{ name: 'PostView', params: { postId: post.postId }}">
+    <!-- <router-link :to="{ name: 'PostView', params: { postId: post.postId }}"> -->
       <div class="post__user">
         <img :src="post.picture" alt="" class="imgCirc">
         <div>
@@ -10,7 +10,7 @@
       </div>
       <img class="post__img" :src="post.attachment" alt="image">
       <p class="post__content">{{ post.content }}</p>
-    </router-link>
+    <!-- </router-link> -->
     <div class="post__reactions">
       <div class="post__likes">
         <!-- appel de la fonction qui requête les likes -->
@@ -32,25 +32,31 @@
         </div>
       </div>
     </form>
-    <div>
-      <img src="" alt="photo de profil" class="tinyCirc">
-      <p>username</p>
-      <p>contenu</p>
-    </div>
+    <!-- <ComInput/> -->
   </div>
 </template>
 
 <script>
 
 import axios from 'axios'
+// import { mapGetters } from 'vuex'
 import { Icon } from '@iconify/vue'
+// import ComInput from './ComInput.vue'
 
 export default {
   name: 'ListPosts',
   data: () => {
     return {
       user: {},
-      posts: [],
+      posts: {
+        postId: '',
+        picture: '',
+        username: '',
+        title: '',
+        attachment: '',
+        content: '',
+        likes: Number
+      },
       likes: [],
       postId: null,
       comment: false,
@@ -61,22 +67,39 @@ export default {
   },
   components: {
     Icon
+    // ComInput
   },
   methods: {
-    // fonction qui requête l'API pour la table des likes par post
-    // likesNum (postId) {
-    //   const token = this.$store.state.user.token
-    //   axios.get(`http://localhost:3000/api/post/${postId}/likes`, {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`
-    //     }
-    //   }).then((response) => {
-    //     console.log(response)
-    //     this.likes = response.data.likes
-    //     console.log(response.data.likes.length)
-    //     // return this.likesNumber
-    //   }).catch((error) => console.log(error))
+    // getPosts () {
+    //   const self = this
+    //   this.$store.dispatch('getPosts', {
+    //     postId: this.postId,
+    //     picture: this.picture,
+    //     username: this.username,
+    //     title: this.title,
+    //     attachment: this.attachment,
+    //     content: this.content,
+    //     likes: this.likes
+    //   }).then(function (response) {
+    //     self.getPosts()
+    //   }).catch(function (error) {
+    //     console.log(error)
+    //   })
     // },
+    // fonction qui requête l'API pour la table des likes par post
+    likesNum (postId) {
+      const token = this.$store.state.user.token
+      axios.get(`http://localhost:3000/api/post/${postId}/likes`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((response) => {
+        console.log(response)
+        this.likes = response.data.likes
+        console.log(response.data.likes.length)
+        // return this.likesNumber
+      }).catch((error) => console.log(error))
+    },
     like (postId) {
       const token = this.$store.state.user.token
       axios.post(`http://localhost:3000/api/post/${postId}/like`, {}, {
