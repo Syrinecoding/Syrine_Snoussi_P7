@@ -6,8 +6,11 @@
       <h2 class="post__info">{{ post.username }}</h2>
       <h3 class="post__info">{{ post.title }}</h3>
     </div>
+    <div class="post__delete">
+      <button @click="deletePost()" v-if="post.user_id == this.$store.state.user.userId || this.$store.state.userProfile.isAdmin > 0" class="btn"><Icon icon="fluent:delete-24-regular" color="#367ca1" height="30" /></button>
+    </div>
   </div>
-  <img class="post__img" :src="post.attachment" alt="image">
+  <img v-if="post.attachment" class="post__img" :src="post.attachment" alt="image">
   <p class="post__content">{{ post.content }}</p>
   <!-- </router-link> -->
   <div class="post__reactions">
@@ -63,6 +66,7 @@ export default {
         }
       }).then((response) => {
         console.log(response)
+        document.location.reload()
       }).catch((error) => console.log(error))
     },
     addComment (postId) {
@@ -85,6 +89,17 @@ export default {
         // console.log(response.data.likes.length)
         // return this.likesNumber
       }).catch((error) => console.log(error))
+    },
+    deletePost () {
+      const token = this.$store.state.user.token
+      axios.delete(`http://localhost:3000/api/post/${this.post.postId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((response) => {
+        console.log(response)
+        document.location.reload()
+      }).catch((error) => console.log(error))
     }
   },
   mounted () {
@@ -100,6 +115,10 @@ export default {
   align-items: center;
   gap: 15px;
   padding-bottom: 10px;
+}
+.post__delete{
+  margin-left: auto;
+  // margin-right: 40px;
 }
 .post__info {
   text-align: left;

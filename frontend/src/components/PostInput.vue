@@ -6,7 +6,7 @@
     <img  class="imgCirc" :src="$store.state.userProfile.picture" alt="photo de profil">
     <form @submit.prevent="createPost" enctype="multipart/form-data">
       <div class="column">
-        <input type="text" class="form-row__input" placeholder="Votre titre">
+        <input type="text" class="form-row__input" placeholder="Votre titre" v-model="title">
         <textarea
           id="content"
           class="form-row__input"
@@ -57,17 +57,19 @@ export default {
   },
   methods: {
     onSelect (event) {
-      this.file = event.target.files[0]
+      this.FILE = event.target.files[0]
       console.log(event)
     },
     createPost () {
       const token = this.$store.state.user.token
       const formData = new FormData()
-      if (this.file == null) {
+      if (this.FILE == null) {
+        formData.append('title', this.title)
         formData.append('content', this.content)
       } else {
+        formData.append('title', this.title)
         formData.append('content', this.content)
-        formData.append('image', this.file, this.file.name)
+        formData.append('image', this.FILE, this.FILE.name)
       }
       axios.post('http://localhost:3000/api/post/', formData, {
         headers: { Authorization: `Bearer ${token}` }
