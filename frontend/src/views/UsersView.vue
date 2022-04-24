@@ -6,16 +6,34 @@
       <h3 class="user__info">{{ user.username }}</h3>
       <p class="user__info">{{ user.position }}</p>
     </div>
+    <button @click="deleteUser(user)" v-if="users.userID == this.$store.state.user.userId || this.$store.state.userProfile.isAdmin > 0" class="btn"><Icon icon="fluent:delete-24-regular" color="#367ca1" height="20" /></button>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import { Icon } from '@iconify/vue'
 
 export default {
   data () {
     return {
-      users: []
+      users: [],
+      user: {}
+    }
+  },
+  components: {
+    Icon
+  },
+  methods: {
+    deleteUser (user) {
+      const token = this.$store.state.user.token
+      console.log(this.user.userID)
+      axios.delete(`http://localhost:3000/api/user/profile/${user.userID}`, { headers: { Authorization: `Bearer ${token}` } })
+        .then((res) => {
+          console.log(res)
+          location.reload()
+        })
+        .catch(err => console.log(err.message))
     }
   },
   mounted () {
