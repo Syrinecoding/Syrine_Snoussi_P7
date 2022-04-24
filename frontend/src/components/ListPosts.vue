@@ -63,7 +63,7 @@ export default {
   border: 3px solid #ffc074;
   border-radius: 35px;
   padding: 10px;
-  width: 700px;
+  max-width: 700px;
   margin: 10px 0px;
   // cursor: pointer;
   color: #2c3e50;

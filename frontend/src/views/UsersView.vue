@@ -27,7 +27,7 @@ export default {
   methods: {
     deleteUser (user) {
       const token = this.$store.state.user.token
-      console.log(this.user.userID)
+      console.log(user.userID)
       axios.delete(`http://localhost:3000/api/user/profile/${user.userID}`, { headers: { Authorization: `Bearer ${token}` } })
         .then((res) => {
           console.log(res)

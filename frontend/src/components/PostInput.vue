@@ -3,22 +3,22 @@
     Publication postée !
   </div>
   <div class="posting">
-    <img  class="imgCirc" :src="$store.state.userProfile.picture" alt="photo de profil">
+    <img  class="imgCirc" :src="this.$store.state.userProfile.picture" alt="photo de profil">
     <form @submit.prevent="createPost" enctype="multipart/form-data">
-      <div class="column">
+      <div class="form-row">
         <input type="text" class="form-row__input" placeholder="Votre titre" v-model="title">
+      </div>
+      <div class="form-row">
         <textarea
           id="content"
           class="form-row__input"
-          cols="45"
-          rows="5"
           v-model="content"
           v-on:keyup.enter="createPost"
           placeholder="Faites-nous rire !">
         </textarea>
       </div>
     </form>
-    <div>
+    <div class="form-row">
       <button @click="upload = !upload" class="btn"><Icon icon="fa-solid:photo-video" color="#367ca1" height="30" /></button>
     </div>
     <form @submit.prevent="createPost" enctype="multipart/form-data">
@@ -99,25 +99,18 @@ export default {
   justify-content: flex-start;
   flex-wrap: wrap;
   align-items: center;
-  margin: 16px  0px;
+  margin: 16px  auto;
   gap: 16px;
-  width: 700px;
+  max-width: 700px;
 }
-/* .form-row {
-  padding: 10px;
-  border-radius: 35px;
-  align-items: center;
-  width: 600px;
-}; */
-.column {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+.form-row__input {
+  width: 480px;
 }
 .upload {
-  width: 700px;
+  max-width: 700px;
 }
 #image {
   width: 500px;
 }
+/* media input et image a passer en max width 100% */
 </style>

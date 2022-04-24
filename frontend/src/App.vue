@@ -2,9 +2,9 @@
   <header class="top-bar">
     <img src="./assets/img/Logo.png" alt="Logo Groupomania" class="top-bar-logo">
     <nav class="top-bar">
-      <router-link to="/">Accueil <Icon icon="ci:home-alt-fill" color="#f24e1e" height="30" class="icon" /></router-link> |
-      <router-link to="/users">Collègues <Icon icon="gis:globe-users" color="#f24e1e" height="30" class="icon"/></router-link> |
-      <router-link to="/profile/:userId">Profil<img v-if="userId" :src="this.$store.state.userProfile.picture" alt="photo de profil" class="tinyCirc"></router-link> |
+      <router-link to="/">Accueil <Icon icon="ci:home-alt-fill" color="#f24e1e" height="30" class="icon" /></router-link>
+      <router-link to="/users">Collègues <Icon icon="gis:globe-users" color="#f24e1e" height="30" class="icon"/></router-link>
+      <router-link to="/profile/:userId">Profil<img :src="$store.state.userProfile.picture" alt="photo de profil" class="tinyCirc"></router-link>
       <router-link to="/signup">Login<Icon icon="ri:login-circle-fill" color="#f24e1e" height="30" class="icon" /></router-link>
     </nav>
   </header>
@@ -17,6 +17,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  flex-wrap: wrap;
   //border: 3px solid green;
     .top-bar-logo {
       width: 22rem;
