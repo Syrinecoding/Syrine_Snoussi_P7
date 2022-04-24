@@ -1,18 +1,18 @@
 <template>
   <div class="card">
-    <h1 class="card__title">Mon profil</h1>
+    <div>
+      <h1 class="card__title">{{ user.username }}</h1>
+    </div>
     <img :src="user.picture" alt="photo de profil">
     <button @click="upload = !upload" class="btn"><Icon icon="ic:round-add-a-photo" color="#367ca1" height="30" /></button>
     <div v-if="upload">
       <file-upload />
     </div>
-    <div>
-      <h2>{{ user.username }}</h2>
       <h3>{{ user.position }}</h3>
-    </div>
     <div class="form-row">
       <button @click="logout()" class="button">Déconnexion</button>
     </div>
+    <button @click="deleteUser(user)"  class="btn delt">Supprimer le compte ?</button>
   </div>
 </template>
 
@@ -20,6 +20,7 @@
 import FileUpload from '../components/FileUpload.vue'
 import axios from 'axios'
 import { Icon } from '@iconify/vue'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'ProfileView',
@@ -30,7 +31,20 @@ export default {
   data () {
     return {
       user: {},
-      upload: false
+      upload: false,
+      userProfile: {}
+    }
+  },
+  methods: {
+    logout: function () {
+      this.$store.commit('logout')
+      this.$router.push('/signup')
+    },
+    ...mapActions(['deleteUser']),
+    deleteUser () {
+      // const user = localStorage.getItem('user')
+      const user = this.$store.state.user
+      this.$store.dispatch('deleteUser', user)
     }
   },
   mounted: function () {
@@ -39,24 +53,26 @@ export default {
       this.$router.push('/signup')
       return
     }
-    axios.get(`http://localhost:3000/api/user/profile/${this.$store.state.user.userId}`, { headers: { Authorization: `Bearer ${this.$store.state.user.token}` } })
+    axios.get(`http://localhost:3000/api/user/profile/${this.$store.state.user.userId}`, {
+      headers: {
+        Authorization: `Bearer ${this.$store.state.user.token}`
+      }
+    })
       .then((res) => {
         console.log(res.data)
         this.user = res.data.user
         this.$store.commit('userProfile', res.data.user)
       })
       .catch(err => console.log(err.message))
-  },
-  methods: {
-    logout: function () {
-      this.$store.commit('logout')
-      this.$router.push('/signup')
-    }
   }
 }
 </script>
 
 <style scoped>
+.flex {
+  display: flex;
+  justify-content: space-around;
+}
 .card__title {
   padding-bottom: 20px;
 }
@@ -66,4 +82,10 @@ img {
   border-radius: 35px;
   margin: 0 auto;
 }
+.delt {
+  font-size: 14px;
+  text-decoration: underline;
+  margin-top: 30px;
+}
+
 </style>

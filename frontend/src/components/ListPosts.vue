@@ -9,7 +9,7 @@
 import axios from 'axios'
 // import { mapGetters } from 'vuex'
 // import { Icon } from '@iconify/vue'
-// import ComInput from './ComInput.vue'
+// import ComItem from './ComItem.vue'
 import PostItem from './PostItem.vue'
 
 export default {
@@ -37,7 +37,7 @@ export default {
   components: {
     // Icon,
     PostItem
-    // ComInput
+    // ComItem
   },
   methods: {
   },

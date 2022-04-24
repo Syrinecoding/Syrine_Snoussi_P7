@@ -56,6 +56,9 @@ export default createStore({
         token: ''
       }
       localStorage.removeItem('user')
+    },
+    deleteUser: function (state, user) {
+      state.user = user
     }
   },
   actions: {
@@ -91,6 +94,23 @@ export default createStore({
           .catch(function (error) {
             console.log(error)
             commit('setStatus', 'error_create')
+            reject(error)
+          })
+      })
+    },
+    deleteUser: ({ commit }, user) => {
+      console.log('delte:', user)
+      return new Promise((resolve, reject) => {
+        instance.delete(`user/profile/${user.userId}`, { headers: { Authorization: `Bearer ${user.token}` } })
+          .then(function (response) {
+            console.warn(response)
+            commit('logout', response.data)
+            console.log(response.data)
+            location.reload()
+          })
+          .catch(function (error) {
+            console.log(error)
+            commit('setStatus', 'error__delete')
             reject(error)
           })
       })

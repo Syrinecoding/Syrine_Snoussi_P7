@@ -52,7 +52,8 @@ export default {
   data: () => {
     return {
       user: {},
-      userProfile: {}
+      userProfile: {},
+      userId: ''
     }
   },
   components: {

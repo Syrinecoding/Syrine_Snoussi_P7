@@ -32,7 +32,18 @@
       </div>
     </div>
   </form>
-  <!-- <ComItem /> -->
+  <div>
+    <button @click="showCom = !showCom" class="btn com__btn">{{ comments.length }} Commentaires</button>
+    <div v-for="comm in comments" :key="comm.commentId">
+      <div v-if="showCom" class="com__user">
+        <img :src="comm.picture" alt="" class="tinyCirc">
+        <div>
+          <h5 class="com__title">{{ comm.username}}</h5>
+          <p>{{ comm.content }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -54,7 +65,8 @@ export default {
       postId: null,
       comInput: false,
       content: '',
-      contentCom: ''
+      contentCom: '',
+      showCom: false
     }
   },
   methods: {
@@ -90,6 +102,16 @@ export default {
         // return this.likesNumber
       }).catch((error) => console.log(error))
     },
+    getComments () {
+      const token = this.$store.state.user.token
+      axios.get(`http://localhost:3000/api/post/${this.post.postId}/comments`, {
+        headers: { Authorization: `Bearer ${token}` }
+      }).then((response) => {
+        console.log(response)
+        this.comments = response.data
+        console.log(response.data)
+      }).catch((error) => console.log(error))
+    },
     deletePost () {
       const token = this.$store.state.user.token
       axios.delete(`http://localhost:3000/api/post/${this.post.postId}`, {
@@ -104,6 +126,7 @@ export default {
   },
   mounted () {
     this.likesNum()
+    this.getComments()
   }
 }
 
@@ -146,5 +169,19 @@ export default {
 .post__comment {
   width: 600px;
   padding: 30px;
+}
+.com__btn {
+  font-weight: bold;
+  margin: 10px;
+}
+.com__user {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 8px 30px;
+}
+.com__title {
+  text-align: left;
+  font-size: 16px;
 }
 </style>

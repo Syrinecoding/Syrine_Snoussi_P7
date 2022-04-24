@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
   name: 'ComItem',
@@ -16,13 +16,6 @@ export default {
     }
   },
   mounted () {
-    const token = this.$store.state.user.token
-    axios.get(`http://localhost:3000/api/post/${this.post.postId}/comments`, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).then((response) => {
-      console.log(response)
-      this.comments = response.data.comments
-    }).catch((error) => console.log(error))
   }
 }
 </script>
