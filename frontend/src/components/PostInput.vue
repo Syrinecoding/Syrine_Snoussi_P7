@@ -18,7 +18,7 @@
         </textarea>
       </div>
     </form>
-    <div class="form-row">
+    <div class="form-row push">
       <button @click="upload = !upload" class="btn"><Icon icon="fa-solid:photo-video" color="#367ca1" height="30" /></button>
     </div>
     <form @submit.prevent="createPost" enctype="multipart/form-data">
@@ -101,16 +101,21 @@ export default {
   align-items: center;
   margin: 16px  auto;
   gap: 16px;
-  max-width: 700px;
 }
 .form-row__input {
   width: 480px;
 }
-.upload {
-  max-width: 700px;
-}
-#image {
-  width: 500px;
-}
+
 /* media input et image a passer en max width 100% */
+@media (max-width: 768px) {
+  .push {
+    margin-left: auto;
+  }
+  .form-row__input {
+    width: 100%;
+  }
+  #image {
+    font-size: small;
+  }
+}
 </style>

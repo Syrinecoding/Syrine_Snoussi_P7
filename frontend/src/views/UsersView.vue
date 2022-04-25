@@ -38,6 +38,10 @@ export default {
   },
   mounted () {
     console.log(this.$store.state.user.token)
+    if (this.$store.state.user.userId === -1) {
+      this.$router.push('/signup')
+      return
+    }
     axios.get('http://localhost:3000/api/user/users', { headers: { Authorization: `Bearer ${this.$store.state.user.token}` } })
       .then((res) => {
         console.log(res.data)

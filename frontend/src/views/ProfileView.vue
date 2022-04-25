@@ -3,7 +3,12 @@
     <div>
       <h1 class="card__title">{{ user.username }}</h1>
     </div>
-    <img :src="user.picture" alt="photo de profil">
+    <div>
+      <img :src="user.picture" alt="photo de profil">
+    </div>
+    <div id="profileImg">
+     {{ displayInit(user) }}
+    </div>
     <button @click="upload = !upload" class="btn"><Icon icon="ic:round-add-a-photo" color="#367ca1" height="30" /></button>
     <div v-if="upload">
       <file-upload />
@@ -32,7 +37,8 @@ export default {
     return {
       user: {},
       upload: false,
-      userProfile: {}
+      userProfile: {},
+      username: ''
     }
   },
   methods: {
@@ -45,6 +51,17 @@ export default {
       // const user = localStorage.getItem('user')
       const user = this.$store.state.user
       this.$store.dispatch('deleteUser', user)
+    },
+    displayInit (user) {
+      const pict = user.picture
+      console.log(pict)
+      const name = user.username
+      console.log(name)
+      if (pict != null) {
+        const intial = name.charAt(0)
+        console.log(intial)
+        return intial
+      }
     }
   },
   mounted: function () {
@@ -69,13 +86,23 @@ export default {
 </script>
 
 <style scoped>
-.flex {
-  display: flex;
-  justify-content: space-around;
-}
+
 .card__title {
   padding-bottom: 20px;
 }
+#profileImg {
+  max-width: 100%;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  line-height: 150px;
+  margin: 0 auto;
+  background: #054263;
+  color: white;
+  font-weight: bold;
+  font-size: 4rem;
+}
+
 img {
   max-width: 100%;
   width: 500px;

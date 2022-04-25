@@ -1,45 +1,47 @@
 <template>
-  <!-- <router-link :to="{ name: 'PostView', params: { postId: post.postId }}"> -->
-  <div class="post__user">
-    <img :src="post.picture" alt="" class="imgCirc">
+  <div class="wrapper">
+    <!-- <router-link :to="{ name: 'PostView', params: { postId: post.postId }}"> -->
+    <div class="post__user">
+      <img :src="post.picture" alt="" class="imgCirc">
+      <div>
+        <h2 class="post__info">{{ post.username }}</h2>
+        <h3 class="post__info">{{ post.title }}</h3>
+      </div>
+      <div class="post__delete">
+        <button @click="deletePost()" v-if="post.user_id == this.$store.state.user.userId || this.$store.state.userProfile.isAdmin > 0" class="btn"><Icon icon="fluent:delete-24-regular" color="#367ca1" height="30" /></button>
+      </div>
+    </div>
+    <img v-if="post.attachment" class="post__img" :src="post.attachment" alt="image">
+    <p class="post__content">{{ post.content }}</p>
+    <!-- </router-link> -->
+    <div class="post__reactions">
+      <div class="post__likes">
+        <span class="post__number">{{ likes.length }}</span>
+        <button @click="like(post.postId)" class="btn"><Icon icon="wpf:like" color="#f24e1e" height="30" class="icon"/>J'aime</button>
+      </div>
+      <button @click="comInput = !comInput" class="btn"><Icon icon="fe:comment" color="#f24e1e" height="30" class="icon"/>Je commente</button>
+    </div>
+    <form @submit.prevent="addComment(post.postId)" method="post">
+      <div v-if="comInput" class="post__comment">
+        <div class="form-row">
+          <label>
+            <input type="text" name="contentCom" id="content" class="form-row__input" v-model="contentCom"/>
+          </label><br>
+        </div>
+        <div class="form-row">
+          <button class="button">Valider</button>
+        </div>
+      </div>
+    </form>
     <div>
-      <h2 class="post__info">{{ post.username }}</h2>
-      <h3 class="post__info">{{ post.title }}</h3>
-    </div>
-    <div class="post__delete">
-      <button @click="deletePost()" v-if="post.user_id == this.$store.state.user.userId || this.$store.state.userProfile.isAdmin > 0" class="btn"><Icon icon="fluent:delete-24-regular" color="#367ca1" height="30" /></button>
-    </div>
-  </div>
-  <img v-if="post.attachment" class="post__img" :src="post.attachment" alt="image">
-  <p class="post__content">{{ post.content }}</p>
-  <!-- </router-link> -->
-  <div class="post__reactions">
-    <div class="post__likes">
-      <span class="post__number">{{ likes.length }}</span>
-      <button @click="like(post.postId)" class="btn"><Icon icon="wpf:like" color="#f24e1e" height="30" class="icon"/>J'aime</button>
-    </div>
-    <button @click="comInput = !comInput" class="btn"><Icon icon="fe:comment" color="#f24e1e" height="30" class="icon"/>Je commente</button>
-  </div>
-  <form @submit.prevent="addComment(post.postId)" method="post">
-    <div v-if="comInput" class="post__comment">
-      <div class="form-row">
-        <label>
-          <input type="text" name="contentCom" id="content" class="form-row__input" v-model="contentCom"/>
-        </label><br>
-      </div>
-      <div class="form-row">
-        <button class="button">Valider</button>
-      </div>
-    </div>
-  </form>
-  <div>
-    <button @click="showCom = !showCom" class="btn com__btn">{{ comments.length }} Commentaires</button>
-    <div v-for="comm in comments" :key="comm.commentId">
-      <div v-if="showCom" class="com__user">
-        <img :src="comm.picture" alt="" class="tinyCirc">
-        <div>
-          <h5 class="com__title">{{ comm.username}}</h5>
-          <p>{{ comm.content }}</p>
+      <button @click="showCom = !showCom" class="btn com__btn">{{ comments.length }} Commentaires</button>
+      <div v-for="comm in comments" :key="comm.commentId">
+        <div v-if="showCom" class="com__user">
+          <img :src="comm.picture" alt="" class="tinyCirc">
+          <div>
+            <h5 class="com__title">{{ comm.username}}</h5>
+            <p>{{ comm.content }}</p>
+          </div>
         </div>
       </div>
     </div>
@@ -133,6 +135,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
 .post__user {
   display: flex;
   align-items: center;
@@ -148,8 +151,9 @@ export default {
 }
 .post__img {
   border-radius: 35px;
+  max-width : 100%;
   width: 600px;
-  height: 600px;
+  // min-height: 600px;
   margin: 0 auto;
   object-fit: cover;
 }
