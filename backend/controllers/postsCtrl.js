@@ -1,7 +1,8 @@
 const db = require('../middleware/configDb');
 
 exports.createPost = (req, res, next) => {
-    const userId = req.body.userId;
+    const userId = req.auth.userId;
+    console.log("user:",userId);
     const attachment = req.file ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}` : null;
     const title = req.body.title ? req.body.title : null;
     const content = req.body.content ? req.body.content : null;
@@ -20,12 +21,14 @@ exports.createPost = (req, res, next) => {
 };
 exports.listPosts = (req, res, next) => {
     const sql = 
-        "SELECT postId, title, content, attachment, user_id, likes, createdAt, username, picture \
+        "SELECT USERS.username, USERS.picture, POSTS.postId, POSTS.title, POSTS.content, POSTS.attachment, POSTS.user_id, POSTS.likes, POSTS.createdAt \
         FROM POSTS \
-        LEFT JOIN USERS \
-            ON POSTS.user_id = USERS.userId \ ORDER BY createdAt DESC";
+            LEFT JOIN USERS \
+                ON POSTS.user_id = USERS.userId \
+        ORDER BY createdAt DESC";
     db.query(sql, (error, results, field) => {
         if(error) {
+            console.error(error)
             return res.status(400).json({ 'error': error.sqlMessage });
         }
         res.status(200).json({

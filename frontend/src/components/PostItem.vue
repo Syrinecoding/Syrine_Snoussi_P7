@@ -16,7 +16,7 @@
     <!-- </router-link> -->
     <div class="post__reactions">
       <div class="post__likes">
-        <span class="post__number">{{ likes.length }}</span>
+        <span class="post__number">{{ likes }}</span>
         <button @click="like(post.postId)" class="btn"><Icon icon="wpf:like" color="#f24e1e" height="30" class="icon"/>J'aime</button>
       </div>
       <button @click="comInput = !comInput" class="btn"><Icon icon="fe:comment" color="#f24e1e" height="30" class="icon"/>Je commente</button>
@@ -34,7 +34,7 @@
       </div>
     </form>
     <div>
-      <button @click="showCom = !showCom" class="btn com__btn">{{ comments.length }} Commentaires</button>
+      <button @click="showComments()" class="btn com__btn">{{ comments.length }} Commentaires</button>
       <div v-for="comm in comments" :key="comm.commentId">
         <div v-if="showCom" class="com__user">
           <img :src="comm.picture" alt="" class="tinyCirc">
@@ -62,13 +62,14 @@ export default {
   },
   data: () => {
     return {
-      likes: [],
+      likes: 0,
       comments: [],
       postId: null,
       comInput: false,
       content: '',
       contentCom: '',
-      showCom: false
+      showCom: false,
+      commentsLoaded: false
     }
   },
   methods: {
@@ -80,7 +81,8 @@ export default {
         }
       }).then((response) => {
         console.log(response)
-        document.location.reload()
+        this.likes = response.data.result[0].likes
+        // document.location.reload()
       }).catch((error) => console.log(error))
     },
     addComment (postId) {
@@ -91,19 +93,25 @@ export default {
         console.log(response)
       }).catch((error) => console.log(error))
     },
-    likesNum () {
-      const token = this.$store.state.user.token
-      axios.get(`http://localhost:3000/api/post/${this.post.postId}/likes`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      }).then((response) => {
-        console.log(response)
-        this.likes = response.data.likes
-        // console.log(response.data.likes.length)
-        // return this.likesNumber
-      }).catch((error) => console.log(error))
+    showComments () {
+      this.showCom = !this.showCom
+      if (this.showCom && !this.commentsLoaded) {
+        this.getComments()
+      }
     },
+    // likesNum () {
+    //   const token = this.$store.state.user.token
+    //   axios.get(`http://localhost:3000/api/post/${this.post.postId}/likes`, {
+    //     headers: {
+    //       Authorization: `Bearer ${token}`
+    //     }
+    //   }).then((response) => {
+    //     console.log(response)
+    //     this.likes = response.data.likes
+    //     // console.log(response.data.likes.length)
+    //     // return this.likesNumber
+    //   }).catch((error) => console.log(error))
+    // },
     getComments () {
       const token = this.$store.state.user.token
       axios.get(`http://localhost:3000/api/post/${this.post.postId}/comments`, {
@@ -111,6 +119,7 @@ export default {
       }).then((response) => {
         console.log(response)
         this.comments = response.data
+        this.commentsLoaded = true
         console.log(response.data)
       }).catch((error) => console.log(error))
     },
@@ -127,8 +136,9 @@ export default {
     }
   },
   mounted () {
-    this.likesNum()
-    this.getComments()
+    // this.likesNum()
+    // this.getComments()
+    this.likes = this.post.likes
   }
 }
 

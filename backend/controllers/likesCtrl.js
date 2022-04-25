@@ -1,5 +1,22 @@
 const db = require('../middleware/configDb');
 
+const updatePostLikes = (postId, res, inc) => {
+    const sql = `UPDATE POSTS SET likes = @likeId := likes ${inc} WHERE postId = ? ${inc ==='-1' ? " AND likes > 0" : ""};`
+
+    db.query(sql, [postId], (error, result, fields) =>{
+        if (error) {
+            console.log(error)
+            return res.status(400).json({ 'error Likeup': error.sqlMessage })
+        }
+        db.query('SELECT POSTS.likes FROM POSTS WHERE postId=?;',[postId], (error,result)=>{
+            if (error){
+                console.log(error)
+                return res.status(400).json({ 'error Likeup': error.sqlMessage })
+            }
+            return res.status(200).json({ result })
+        })
+    })
+}
 exports.likePost = (req, res, next) => {
     const userId = req.auth.userId;
     const postId = req.params.postId;
@@ -27,7 +44,7 @@ exports.likePost = (req, res, next) => {
                     if(error) {
                         return res.status(400).json({ 'error': error.sqlMessage, code: 2 });
                     }
-                    return res.status(200).json({ message : 'Publication likée !'});
+                    return updatePostLikes(postId, res, '+1')
                 });
             
             } else if(length > 0) {
@@ -36,7 +53,7 @@ exports.likePost = (req, res, next) => {
                     if(error) {
                         return res.status(400).json({ 'error': error.sqlMessage, code: 3 });
                     }
-                    return res.status(200).json({ message : 'Like supprimé !'});
+                    return updatePostLikes(postId, res, '-1')
                 });
             } else {
                 return res.status(200).json({message :'length < 0'})

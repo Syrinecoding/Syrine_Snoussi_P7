@@ -47,9 +47,10 @@ export default {
   },
   data () {
     return {
+      title: '',
+      content: '',
       user: {},
       userProfile: {},
-      content: '',
       file: '',
       isSuccess: false,
       upload: false
