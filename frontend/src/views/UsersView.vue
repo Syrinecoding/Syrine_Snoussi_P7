@@ -1,7 +1,11 @@
 <template>
   <h1>Nos membres</h1>
   <div v-for="user in users" :key="user.userID" class="user">
-    <img :src="user.picture" alt="photo de profil" class="imgCirc">
+    <div v-if="user.picture">
+      <img :src="user.picture" alt="photo de profil" class="imgCirc">    </div>
+    <div v-else>
+      <img src="../assets/img/depositphotos_profile.jpeg" alt="avatar" class="imgCirc">
+    </div>
     <div>
       <h3 class="user__info">{{ user.username }}</h3>
       <p class="user__info">{{ user.position }}</p>
@@ -11,6 +15,7 @@
 </template>
 
 <script>
+
 import axios from 'axios'
 import { Icon } from '@iconify/vue'
 

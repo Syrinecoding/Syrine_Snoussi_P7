@@ -47,7 +47,7 @@ exports.authPost = (req, res, next) => {
                     } else if (result.length === 0) {
                         res.status(404).json({'error': "Ce post n'existe pas !"});
                     } else {
-                        const postAuthor = result[0].userId;
+                        const postAuthor = result[0].user_id;
                         if (postAuthor === userId) {
                             //user is postAuthor
                             next();

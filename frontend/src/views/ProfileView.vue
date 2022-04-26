@@ -3,11 +3,11 @@
     <div>
       <h1 class="card__title">{{ user.username }}</h1>
     </div>
-    <div>
-      <img :src="user.picture" alt="photo de profil">
+    <div v-if="user.picture">
+       <img :src="user.picture" alt="Photo de profil">
     </div>
-    <div id="profileImg">
-     {{ displayInit(user) }}
+    <div v-else>
+      <img src="../assets/img/depositphotos_profile.jpeg" alt="avatar">
     </div>
     <button @click="upload = !upload" class="btn"><Icon icon="ic:round-add-a-photo" color="#367ca1" height="30" /></button>
     <div v-if="upload">
@@ -23,14 +23,17 @@
 
 <script>
 import FileUpload from '../components/FileUpload.vue'
+// import ProfileImg from '../components/ProfileImg.vue'
 import axios from 'axios'
 import { Icon } from '@iconify/vue'
 import { mapActions } from 'vuex'
 
 export default {
   name: 'ProfileView',
+  props: ['initRect'],
   components: {
     FileUpload,
+    // ProfileImg,
     Icon
   },
   data () {
@@ -38,7 +41,8 @@ export default {
       user: {},
       upload: false,
       userProfile: {},
-      username: ''
+      username: '',
+      picture: ''
     }
   },
   methods: {
@@ -48,20 +52,8 @@ export default {
     },
     ...mapActions(['deleteUser']),
     deleteUser () {
-      // const user = localStorage.getItem('user')
       const user = this.$store.state.user
       this.$store.dispatch('deleteUser', user)
-    },
-    displayInit (user) {
-      const pict = user.picture
-      console.log(pict)
-      const name = user.username
-      console.log(name)
-      if (pict != null) {
-        const intial = name.charAt(0)
-        console.log(intial)
-        return intial
-      }
     }
   },
   mounted: function () {
@@ -108,6 +100,9 @@ img {
   width: 500px;
   border-radius: 35px;
   margin: 0 auto;
+}
+.btn {
+  margin-top: 20px;
 }
 .delt {
   font-size: 14px;

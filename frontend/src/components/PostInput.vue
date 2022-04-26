@@ -3,7 +3,7 @@
     Publication postée !
   </div>
   <div class="posting">
-    <img  class="imgCirc" :src="this.$store.state.userProfile.picture" alt="photo de profil">
+    <ProfileImg class="profileInit"/>
     <form @submit.prevent="createPost" enctype="multipart/form-data">
       <div class="form-row">
         <input type="text" class="form-row__input" placeholder="Votre titre" v-model="title">
@@ -37,13 +37,15 @@
 </template>
 
 <script>
+import ProfileImg from './ProfileImg.vue'
 import axios from 'axios'
 import { Icon } from '@iconify/vue'
 
 export default {
   name: 'PostInput',
   components: {
-    Icon
+    Icon,
+    ProfileImg
   },
   data () {
     return {
@@ -72,12 +74,17 @@ export default {
         formData.append('content', this.content)
         formData.append('image', this.FILE, this.FILE.name)
       }
-      axios.post('http://localhost:3000/api/post/', formData, {
+      axios.post('http://localhost:3000/api/post/', this.formData, {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then((response) => {
-          console.log(response)
+          console.log(response.data)
           this.isSuccess = true
+          setTimeout(function (scope) {
+            scope.isSuccess = false
+          }, 2000, this)
+          this.upload = false
+          // this.$emit('newPost')
         })
         .catch((error) => console.log(error))
     }

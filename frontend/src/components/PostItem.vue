@@ -1,8 +1,12 @@
 <template>
   <div class="wrapper">
-    <!-- <router-link :to="{ name: 'PostView', params: { postId: post.postId }}"> -->
     <div class="post__user">
-      <img :src="post.picture" alt="" class="imgCirc">
+      <div v-if="post.picture">
+        <img :src="post.picture" alt="" class="imgCirc">
+      </div>
+      <div v-else>
+        <img src="../assets/img/depositphotos_profile.jpeg" alt="avatar" class="imgCirc">
+      </div>
       <div>
         <h2 class="post__info">{{ post.username }}</h2>
         <h3 class="post__info">{{ post.title }}</h3>
@@ -13,13 +17,15 @@
     </div>
     <img v-if="post.attachment" class="post__img" :src="post.attachment" alt="image">
     <p class="post__content">{{ post.content }}</p>
-    <!-- </router-link> -->
     <div class="post__reactions">
       <div class="post__likes">
         <span class="post__number">{{ likes }}</span>
         <button @click="like(post.postId)" class="btn"><Icon icon="wpf:like" color="#f24e1e" height="30" class="icon"/>J'aime</button>
       </div>
       <button @click="comInput = !comInput" class="btn"><Icon icon="fe:comment" color="#f24e1e" height="30" class="icon"/>Je commente</button>
+    </div>
+    <div class="alert alert--success" v-if="isSuccess">
+      Commentaire publié !
     </div>
     <form @submit.prevent="addComment(post.postId)" method="post">
       <div v-if="comInput" class="post__comment">
@@ -34,13 +40,16 @@
       </div>
     </form>
     <div>
-      <button @click="showComments()" class="btn com__btn">{{ comments.length }} Commentaires</button>
+      <button @click="showComments()" class="btn com__btn">Commentaires</button>
       <div v-for="comm in comments" :key="comm.commentId">
         <div v-if="showCom" class="com__user">
           <img :src="comm.picture" alt="" class="tinyCirc">
           <div>
             <h5 class="com__title">{{ comm.username}}</h5>
             <p>{{ comm.content }}</p>
+          </div>
+          <div class="post__delete">
+            <button @click="deleteCom(comm.commentId)" v-if="comm.userId == this.$store.state.user.userId || this.$store.state.userProfile.isAdmin > 0" class="btn"><Icon icon="fluent:delete-24-regular" color="#367ca1" height="25" /></button>
           </div>
         </div>
       </div>
@@ -64,10 +73,12 @@ export default {
     return {
       likes: 0,
       comments: [],
+      commentId: null,
       postId: null,
       comInput: false,
       content: '',
       contentCom: '',
+      isSuccess: false,
       showCom: false,
       commentsLoaded: false
     }
@@ -82,7 +93,6 @@ export default {
       }).then((response) => {
         console.log(response)
         this.likes = response.data.result[0].likes
-        // document.location.reload()
       }).catch((error) => console.log(error))
     },
     addComment (postId) {
@@ -91,6 +101,11 @@ export default {
         headers: { Authorization: `Bearer ${token}` }
       }).then((response) => {
         console.log(response)
+        this.isSuccess = true
+        setTimeout(function (scope) {
+          scope.isSuccess = false
+        }, 2000, this)
+        this.comInput = false
       }).catch((error) => console.log(error))
     },
     showComments () {
@@ -99,19 +114,6 @@ export default {
         this.getComments()
       }
     },
-    // likesNum () {
-    //   const token = this.$store.state.user.token
-    //   axios.get(`http://localhost:3000/api/post/${this.post.postId}/likes`, {
-    //     headers: {
-    //       Authorization: `Bearer ${token}`
-    //     }
-    //   }).then((response) => {
-    //     console.log(response)
-    //     this.likes = response.data.likes
-    //     // console.log(response.data.likes.length)
-    //     // return this.likesNumber
-    //   }).catch((error) => console.log(error))
-    // },
     getComments () {
       const token = this.$store.state.user.token
       axios.get(`http://localhost:3000/api/post/${this.post.postId}/comments`, {
@@ -121,6 +123,18 @@ export default {
         this.comments = response.data
         this.commentsLoaded = true
         console.log(response.data)
+      }).catch((error) => console.log(error))
+    },
+    deleteCom (commentId) {
+      const token = this.$store.state.user.token
+      axios.delete(`http://localhost:3000/api/post/comment/${commentId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((response) => {
+        console.log(response)
+        this.showCom = false
+        this.commentsLoaded = false
       }).catch((error) => console.log(error))
     },
     deletePost () {
@@ -136,8 +150,6 @@ export default {
     }
   },
   mounted () {
-    // this.likesNum()
-    // this.getComments()
     this.likes = this.post.likes
   }
 }
@@ -187,6 +199,9 @@ export default {
 .com__btn {
   font-weight: bold;
   margin: 10px;
+  border: 1px solid lightgrey;
+  padding: 5px;
+  border-radius: 8px;
 }
 .com__user {
   display: flex;

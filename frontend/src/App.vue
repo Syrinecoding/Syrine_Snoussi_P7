@@ -4,14 +4,7 @@
     <nav class="top-bar">
       <router-link to="/">Accueil <Icon icon="ci:home-alt-fill" color="#f24e1e" height="30" class="icon" /></router-link>
       <router-link to="/users">Collègues <Icon icon="gis:globe-users" color="#f24e1e" height="30" class="icon"/></router-link>
-      <!-- <router-link to="/profile/:userId">Profil
-        <div v-if="store....">
-          <img :src="$store.state.userProfile.picture" alt="photo de profil" class="tinyCirc">
-        </div>
-        <div v-if="!store....">
-
-        </div> -->
-      <!-- </router-link> -->
+      <router-link to="/profile/:userId">Profil <ProfileImg class="tinyCirc flex"/></router-link>
       <router-link to="/signup">Login<Icon icon="ri:login-circle-fill" color="#f24e1e" height="30" class="icon" /></router-link>
     </nav>
   </header>
@@ -55,6 +48,7 @@ nav {
 
 <script>
 import { Icon } from '@iconify/vue'
+import ProfileImg from '../src/components/ProfileImg.vue'
 
 export default {
   data: () => {
@@ -64,8 +58,10 @@ export default {
       userId: ''
     }
   },
+  props: ['tinyCirc'],
   components: {
-    Icon
+    Icon,
+    ProfileImg
   },
   mounted () {
     console.log('nav :', this.$store.state.userProfile)
