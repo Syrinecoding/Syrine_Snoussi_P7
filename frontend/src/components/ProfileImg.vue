@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     displayInit () {
-      const name = this.$store.state.userProfile.username
+      const name = this.userProfile.username
       console.log(name)
       const intial = name.charAt(0)
       console.log(intial)

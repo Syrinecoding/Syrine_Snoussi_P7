@@ -43,6 +43,7 @@ import { Icon } from '@iconify/vue'
 
 export default {
   name: 'PostInput',
+  // emits: ['newpost'],
   components: {
     Icon,
     ProfileImg
@@ -63,7 +64,10 @@ export default {
       this.FILE = event.target.files[0]
       console.log(event)
     },
-    createPost () {
+    // newpost (event) {
+    //   this.$emit('newpost', event.target.value)
+    // },
+    async createPost () {
       const token = this.$store.state.user.token
       const formData = new FormData()
       if (this.FILE == null) {
@@ -74,7 +78,7 @@ export default {
         formData.append('content', this.content)
         formData.append('image', this.FILE, this.FILE.name)
       }
-      axios.post('http://localhost:3000/api/post/', this.formData, {
+      await axios.post('http://localhost:3000/api/post/', formData, {
         headers: { Authorization: `Bearer ${token}` }
       })
         .then((response) => {
@@ -84,7 +88,7 @@ export default {
             scope.isSuccess = false
           }, 2000, this)
           this.upload = false
-          // this.$emit('newPost')
+          this.newpost()
         })
         .catch((error) => console.log(error))
     }

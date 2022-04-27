@@ -39,6 +39,9 @@ export default {
     }
   },
   methods: {
+    // refresh () {
+    //   document.location.reload()
+    // }
   },
   mounted () {
     const token = this.$store.state.user.token

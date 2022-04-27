@@ -57,7 +57,7 @@ export default {
     }
   },
   mounted: function () {
-    console.log('ProfileView', this.$store.state.user)
+    // console.log('ProfileView', this.$store.state.user)
     if (this.$store.state.user.userId === -1) {
       this.$router.push('/signup')
       return
@@ -68,7 +68,7 @@ export default {
       }
     })
       .then((res) => {
-        console.log(res.data)
+        // console.log(res.data)
         this.user = res.data.user
         this.$store.commit('userProfile', res.data.user)
       })
