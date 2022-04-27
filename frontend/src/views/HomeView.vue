@@ -1,9 +1,10 @@
 <template>
   <div class="home">
-    <PostInput />
-    <div v-for="post in posts" :key="post.postId" class="post">
+    <PostInput @newPost="getNewPost"/>
+    <div v-for="post in allPosts" :key="post.postId" class="post">
       <PostItem :post='post'/>
     </div>
+    <!-- <PostList :allPosts="allPosts"/> -->
   </div>
 </template>
 
@@ -18,10 +19,11 @@ export default {
     PostInput,
     PostItem
   },
+  emits: ['postMessage'],
   data: () => {
     return {
       user: {},
-      posts: {
+      allPosts: [{
         postId: '',
         picture: '',
         username: '',
@@ -29,7 +31,7 @@ export default {
         attachment: '',
         content: '',
         likes: Number
-      },
+      }],
       likes: [],
       postId: null,
       comment: false,
@@ -39,23 +41,26 @@ export default {
     }
   },
   methods: {
-    // refresh () {
-    //   document.location.reload()
-    // }
+    getNewPost (value) {
+      console.log(value)
+      this.allPosts.unshift(value)
+    }
   },
   mounted () {
     const token = this.$store.state.user.token
-    axios
-      .get('http://localhost:3000/api/post/',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
+    if (token) {
+      axios
+        .get('http://localhost:3000/api/post/',
+          {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
           }
-        }
-      ).then((res) => {
-        console.log(res.data)
-        this.posts = res.data.posts
-      }).catch(err => console.log(err.message))
+        ).then((res) => {
+          console.log(res.data)
+          this.allPosts = res.data.posts
+        }).catch(err => console.log(err.message))
+    }
   }
 }
 </script>
@@ -73,11 +78,17 @@ export default {
   padding: 10px;
   max-width: 700px;
   margin: 10px 0px;
+  background: white;
   /* cursor: pointer; */
   color: #2c3e50;
     a{
       text-decoration: none;
       color: #2c3e50;
     }
+}
+@media (max-width: 768px) {
+  .home {
+    width: unset;
+  }
 }
 </style>

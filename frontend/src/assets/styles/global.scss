@@ -8,6 +8,7 @@
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
     color: #2c3e50;
+    background: #FFE8D4;
 }
 img {
     display: block;
@@ -117,6 +118,7 @@ img {
     color: white;
     font-weight: bold;
     font-size: 4rem;
+    object-fit: cover;
 }
 .initSmall {
     max-width: 100%;
@@ -129,6 +131,7 @@ img {
     color: white;
     font-weight: bold;
     font-size: 1.5rem;
+    object-fit: cover;
 }
 .initRect {
     max-width: 100%;

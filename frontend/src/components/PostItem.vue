@@ -202,6 +202,7 @@ export default {
   border: 1px solid lightgrey;
   padding: 5px;
   border-radius: 8px;
+  background: #FFF5EE;
 }
 .com__user {
   display: flex;

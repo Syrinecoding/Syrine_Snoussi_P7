@@ -18,6 +18,8 @@ const db = mysql.createConnection({
     user : DB_USER,
     password : DB_PASS,
     database : DB_NAME,
+    multipleStatements: true,
+    connectionLimit: 10
 });
 
 // connecter

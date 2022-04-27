@@ -16,6 +16,7 @@ application des fonctions du controller */
 router.post('/signup', password, userCtrl.signup);
 router.post('/login', userCtrl.login);
 router.get('/profile/:userId', auth, userCtrl.getOneUser);
+router.get('/auth', auth, userCtrl.authentificate);
 //router.get('/profile/:userId/posts', auth, userCtrl.getUserPosts);
 router.get('/users/' , auth, userCtrl.getAllUsers);
 router.put('/profile/:userId', auth, multer, userCtrl.updatePicture);

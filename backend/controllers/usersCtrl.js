@@ -84,7 +84,10 @@ exports.login = (req, res, next) => {
                             { userId: result[0].userId },
                             process.env.MY_TOKEN_KEY,
                             { expiresIn: '24h'}
-                        )
+                        ),
+                        username: result[0].username,
+                        picture: result[0].picture,
+                        isAdmin: result[0].isAdmin
                     })
                 )
                 
@@ -165,4 +168,8 @@ exports.updateAdmin = (req, res, next) => {
         }
         res.status(201).json({ message: "Droits d'administration transférés !"})
     });
-}
+};
+exports.authentificate = (req, res, next) => {
+    res.status(200).json({ message: "token valide !" })
+};
+

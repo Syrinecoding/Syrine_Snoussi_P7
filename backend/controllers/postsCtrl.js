@@ -14,7 +14,8 @@ exports.createPost = (req, res, next) => {
         if(error) {
             res.status(500).json({'error': error.sqlMessage});
         } else {
-            res.status(201).json({message : "Post publié !"});
+            console.log(results);
+            res.status(201).json({message : "Post publié !", post: {postId:results.insertId, userId, attachment, title, content, likes} });
         }
     });
 
@@ -37,16 +38,24 @@ exports.listPosts = (req, res, next) => {
 };
 // TODO supprimer la photo et le fichier photo
 exports.deletePost = (req, res, next) => {
+    // db.query(, ()=>{// SElECT ce postId
+    //     if()...// si attachment , fsunlink
+
+
     const postId = parseInt(req.params.postId, 10);
-    const sql = "DELETE FROM  POSTS WHERE postId= ?;";
+    const sql = "DELETE FROM POSTS WHERE postId= ?;";
     const sqlParams = [postId];
     db.query(sql, sqlParams, (error, result, fields) => {
         if(error) {
             res.status(500).json({ 'error': error.sqlMessage});
         } else {
+            // fs.unlink('file')
             res.status(201).json({ message: 'Post supprimé !'});
         }
     });
+    // })
+
+
 };
 // récupérer tous les commentaires d'un post
 exports.getAllComPosts = (req, res, next) => {

@@ -75,7 +75,10 @@ export default {
       const self = this
       this.$store.dispatch('logIn', {
         email: this.email,
-        password: this.password
+        password: this.password,
+        username: this.username,
+        picture: this.picture,
+        isAdmin: this.isAdmin
       }).then(function (response) {
         console.log('login userId', response.data.userId)
         self.$router.push(`/profile/${response.data.userId}`)

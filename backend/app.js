@@ -14,7 +14,7 @@ const postRoutes = require('./routes/postRoutes');
 // Propriété de rateLimit
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15min
-    max: 80, // limite chaque IP à 80 requêtes par 15min
+    max: 200, // limite chaque IP à 80 requêtes par 15min
     standardHeaders: true, // retourne l'info dans les headers
     legacyHeaders: false // désactive le 'X-rateLimit-*' headers
 });

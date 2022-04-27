@@ -1,33 +1,34 @@
 <template>
-  <div v-if="userProfile.picture" class="flex">
-    <img :src="userProfile.picture" alt="photo de profil" v-bind="$attrs">
+  <div v-if="picture" class="flex">
+    <img :src="picture" alt="photo de profil">
   </div>
-  <div v-if="!userProfile.picture" v-bind="$attrs">
-    {{ displayInit() }}
+  <div v-if="!picture" class="imgCirc">
+    <img src="../assets/img/depositphotos_profile.jpeg" alt="avatar">
+    <!-- {{ displayInit() }} -->
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
 
 export default {
   name: 'ProfileImg',
-  inheritAttrs: false,
+  props: [
+    'picture'
+  ],
   data: () => {
-    return {
-    }
-  },
-  computed: {
-    ...mapState(['userProfile'])
+    return {}
   },
   methods: {
     displayInit () {
-      const name = this.userProfile.username
+      const name = this.$store.state.userProfile.username
       console.log(name)
       const intial = name.charAt(0)
       console.log(intial)
       return intial
     }
+  },
+  mounted: () => {
+    console.log('profile img mounted')
   }
 }
 

@@ -3,7 +3,9 @@
     Publication postée !
   </div>
   <div class="posting">
-    <ProfileImg class="profileInit"/>
+    <img v-if="picture" :src="picture" alt="photo de profil" class="imgCirc">
+    <img v-else src="../assets/img/depositphotos_profile.jpeg" alt="avatar" class="imgCirc">
+    <!-- <ProfileImg :picture="picture" /> -->
     <form @submit.prevent="createPost" enctype="multipart/form-data">
       <div class="form-row">
         <input type="text" class="form-row__input" placeholder="Votre titre" v-model="title">
@@ -37,16 +39,16 @@
 </template>
 
 <script>
-import ProfileImg from './ProfileImg.vue'
+// import ProfileImg from './ProfileImg.vue'
 import axios from 'axios'
 import { Icon } from '@iconify/vue'
 
 export default {
   name: 'PostInput',
-  // emits: ['newpost'],
+  emits: ['newPost'],
   components: {
-    Icon,
-    ProfileImg
+    Icon
+    // ProfileImg
   },
   data () {
     return {
@@ -56,7 +58,8 @@ export default {
       userProfile: {},
       file: '',
       isSuccess: false,
-      upload: false
+      upload: false,
+      picture: ''
     }
   },
   methods: {
@@ -88,7 +91,9 @@ export default {
             scope.isSuccess = false
           }, 2000, this)
           this.upload = false
-          this.newpost()
+          this.$emit('newPost', response.data.post)
+          // response.data.post
+          // this.newpost()
         })
         .catch((error) => console.log(error))
     }
@@ -97,6 +102,9 @@ export default {
     // console.log('PostInput.vue', this.$store.state.user.picture)
     if (this.$store.state.user.userId === -1) {
       this.$router.push('/signup')
+    } else {
+      console.log(this.$store.state.user)
+      this.picture = this.$store.state.user.picture
     }
   }
 }
@@ -113,6 +121,8 @@ export default {
   align-items: center;
   margin: 16px  auto;
   gap: 16px;
+  background: white;
+  max-width: 700px;
 }
 .form-row__input {
   width: 480px;

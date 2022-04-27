@@ -3,7 +3,6 @@ import HomeView from '../views/HomeView.vue'
 import UsersView from '../views/UsersView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import SignupView from '../views/SignupView.vue'
-import PostView from '../views/PostView.vue'
 import NotFound from '../views/NotFound.vue'
 
 const routes = [
@@ -26,12 +25,6 @@ const routes = [
     path: '/profile/:userId',
     name: 'Profil',
     component: ProfileView
-  },
-  {
-    path: '/posts/:postId',
-    name: 'PostView',
-    component: PostView,
-    props: true
   },
   // 404
   {

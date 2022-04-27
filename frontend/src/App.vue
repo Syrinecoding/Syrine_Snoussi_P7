@@ -4,7 +4,11 @@
     <nav class="top-bar">
       <router-link to="/">Accueil <Icon icon="ci:home-alt-fill" color="#f24e1e" height="30" class="icon" /></router-link>
       <router-link to="/users">Collègues <Icon icon="gis:globe-users" color="#f24e1e" height="30" class="icon"/></router-link>
-      <router-link to="/profile/:userId">Profil <ProfileImg class="tinyCirc flex"/></router-link>
+      <router-link to="/profile/:userId">
+        Profil
+        <img v-if="picture" :src="picture" alt="photo de profil" class="tinyCirc">
+        <img v-else src="./assets/img/depositphotos_profile.jpeg" alt="avatar" class="tinyCirc">
+      </router-link>
       <router-link to="/signup">Login<Icon icon="ri:login-circle-fill" color="#f24e1e" height="30" class="icon" /></router-link>
     </nav>
   </header>
@@ -18,6 +22,7 @@
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
+  background: white;
   //border: 3px solid green;
     .top-bar-logo {
       width: 22rem;
@@ -48,23 +53,41 @@ nav {
 
 <script>
 import { Icon } from '@iconify/vue'
-import ProfileImg from '../src/components/ProfileImg.vue'
+import axios from 'axios'
+// import ProfileImg from '../src/components/ProfileImg.vue'
 
 export default {
   data: () => {
     return {
       user: {},
       userProfile: {},
-      userId: ''
+      userId: '',
+      picture: ''
     }
   },
   props: ['tinyCirc'],
   components: {
-    Icon,
-    ProfileImg
+    Icon
+    // ProfileImg
   },
   mounted () {
-    console.log('nav :', this.$store.state.userProfile)
+    const ls = localStorage.getItem('user')
+    if (ls) {
+      console.log('1')
+      const user = JSON.parse(ls)
+      const token = user.token// this.$store.state.user.token
+      console.log('2', user)
+      console.log(token)
+      axios.get('http://localhost:3000/api/user/auth', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }).then((res) => {
+        console.log(res)
+        this.$store.dispatch('fill', user)
+        this.picture = user.picture
+      }).catch(err => console.log(err))
+    }
   }
 }
 </script>

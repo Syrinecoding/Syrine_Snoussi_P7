@@ -62,6 +62,9 @@ export default createStore({
     }
   },
   actions: {
+    fill: ({ commit }, userProfile) => {
+      commit('logUser', userProfile)
+    },
     logIn: ({ commit }, userProfile) => {
       commit('setStatus', 'loading')
       // TODO ne faut-il pas utiliser un await pour attendre que user ait fini de taper ?
