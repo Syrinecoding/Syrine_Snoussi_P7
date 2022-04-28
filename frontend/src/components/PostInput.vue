@@ -67,9 +67,6 @@ export default {
       this.FILE = event.target.files[0]
       console.log(event)
     },
-    // newpost (event) {
-    //   this.$emit('newpost', event.target.value)
-    // },
     async createPost () {
       const token = this.$store.state.user.token
       const formData = new FormData()
@@ -92,8 +89,6 @@ export default {
           }, 2000, this)
           this.upload = false
           this.$emit('newPost', response.data.post)
-          // response.data.post
-          // this.newpost()
         })
         .catch((error) => console.log(error))
     }
@@ -104,7 +99,16 @@ export default {
       this.$router.push('/signup')
     } else {
       console.log(this.$store.state.user)
-      this.picture = this.$store.state.user.picture
+      this.picture = this.$store.state.userProfile.picture
+    }
+  },
+  updated: function () {
+    // console.log('PostInput.vue', this.$store.state.user.picture)
+    if (this.$store.state.user.userId === -1) {
+      this.$router.push('/signup')
+    } else {
+      console.log(this.$store.state.user)
+      this.picture = this.$store.state.userProfile.picture
     }
   }
 }
@@ -112,7 +116,7 @@ export default {
 
 <style scoped>
 .posting {
-  border: 3px solid #ffc074;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 35px;
   padding: 10px;
   display: flex;

@@ -11,7 +11,7 @@
     </div>
     <button @click="upload = !upload" class="btn"><Icon icon="ic:round-add-a-photo" color="#367ca1" height="30" /></button>
     <div v-if="upload">
-      <file-upload />
+      <file-upload @newPicture="getNewPicture"/>
     </div>
       <h3>{{ user.position }}</h3>
     <div class="form-row">
@@ -46,9 +46,19 @@ export default {
     }
   },
   methods: {
+    getNewPicture (value) {
+      console.log(value)
+      this.$store.state.user.picture = value
+      this.upload = false
+      setTimeout(function (scope) { scope.location.reload() }, 2000, this)
+      location.reload()
+    },
     logout: function () {
       this.$store.commit('logout')
       this.$router.push('/signup')
+      const user = this.$store.state.user
+      this.$store.dispatch('logout', user)
+      location.reload()
     },
     ...mapActions(['deleteUser']),
     deleteUser () {
@@ -98,6 +108,7 @@ export default {
 img {
   max-width: 100%;
   width: 500px;
+  object-fit: cover;
   border-radius: 35px;
   margin: 0 auto;
 }

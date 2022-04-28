@@ -55,6 +55,13 @@ export default createStore({
         userId: -1,
         token: ''
       }
+      state.userProfile = {
+        userId: '',
+        username: '',
+        picture: '',
+        position: '',
+        isAdmin: ''
+      }
       localStorage.removeItem('user')
     },
     deleteUser: function (state, user) {
@@ -62,8 +69,11 @@ export default createStore({
     }
   },
   actions: {
-    fill: ({ commit }, userProfile) => {
-      commit('logUser', userProfile)
+    // fill: ({ commit }, userProfile) => {
+    //   commit('logUser', userProfile)
+    // },
+    logout: ({ commit }, logout) => {
+      commit('logout', logout)
     },
     logIn: ({ commit }, userProfile) => {
       commit('setStatus', 'loading')
@@ -71,7 +81,7 @@ export default createStore({
       return new Promise((resolve, reject) => {
         instance.post('/user/login', userProfile)
           .then(function (response) {
-            console.log(response.data)
+            // console.log(response.data)
             // console.log(userProfile)
             commit('setStatus', '')
             commit('logUser', response.data)
@@ -110,6 +120,7 @@ export default createStore({
             commit('logout', response.data)
             console.log(response.data)
             location.reload()
+            resolve(response)
           })
           .catch(function (error) {
             console.log(error)

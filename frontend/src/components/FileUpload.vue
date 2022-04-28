@@ -17,6 +17,7 @@
 import axios from 'axios'
 export default {
   name: 'FileUpload',
+  emits: ['newPicture'],
   data () {
     return {
       user: {},
@@ -40,12 +41,11 @@ export default {
             // 'Content-Type': 'multipart/form-data'
           }
         }
-      ).then(function () {
-        console.log('SUCCES !!')
+      ).then((response) => {
+        console.log('SUCCES !!', response.data.pictureUrl)
+        this.$emit('newPicture', response.data.pictureUrl)
         // document.location.reload()
-      }).catch(function () {
-        console.log('ECHEC !!')
-      })
+      }).catch((error) => console.log('ECHEC !!', error))
     }
   }
 }

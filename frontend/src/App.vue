@@ -13,6 +13,7 @@
     </nav>
   </header>
   <router-view/>
+  <footer></footer>
 </template>
 
 <style lang="scss">
@@ -49,6 +50,9 @@ nav {
     }
   }
 }
+footer {
+  height: 100px;
+}
 </style>
 
 <script>
@@ -70,6 +74,8 @@ export default {
     Icon
     // ProfileImg
   },
+  methods: {
+  },
   mounted () {
     const ls = localStorage.getItem('user')
     if (ls) {
@@ -84,10 +90,14 @@ export default {
         }
       }).then((res) => {
         console.log(res)
-        this.$store.dispatch('fill', user)
-        this.picture = user.picture
+        // this.$store.dispatch('fill', user)
+        this.picture = this.$store.state.userProfile.picture
       }).catch(err => console.log(err))
     }
+  },
+  updated: function () {
+    console.log(this.$store.state.user)
+    // this.picture = this.$store.state.userProfile.picture
   }
 }
 </script>

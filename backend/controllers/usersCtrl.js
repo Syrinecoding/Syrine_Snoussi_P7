@@ -139,20 +139,43 @@ exports.getAllUsers = (req, res, next) => {
 };
 
 exports.updatePicture = (req, res, next) => {
-    const pictureUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-    // Créer 2 dossiers multer : profil et post
-    console.log(pictureUrl);
     const userId = req.params.userId;
     console.log(userId);
-    const sql = "UPDATE USERS SET picture=? WHERE userId=?";
-    const sqlParams = [pictureUrl, userId];
-    db.query(sql, sqlParams, (error, result, rows) => {
-        if(error) {
-            res.status(500).json({ 'error': error.sqlMessage });
-        } else {
-            res.status(201).json({ pictureUrl, userId, message: 'Image de profil modifiée !'});
+    const sqlParams1 = [userId]
+    // recherche dans la BDD 
+    const sqlDeleteImg = "SELECT * FROM USERS WHERE userId= ?";
+    db.query(sqlDeleteImg, sqlParams1, (errImg, result, rows) => {
+        if(errImg) {
+            res.status(500).json({ 'error': errImg.sqlMessage })
+        } else if (result[0].picture != null) {
+            const oldImg = result[0].picture
+            console.log('oldimg :', oldImg)
+            const oldFile = oldImg.split('/images/')[1];
+            fs.unlink(`images/${oldFile}`, (err => {
+                if(err) {
+                    console.log(err);
+                    return false
+                } else {
+                    console.log("Ancienne image supprimée ! ")
+                    return true
+                }
+            }));
         }
-    });
+        const pictureUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+        console.log(pictureUrl);
+        const sqlUpdate = "UPDATE USERS SET picture=? WHERE userId=?";
+        const sqlParams = [pictureUrl, userId];
+        db.query(sqlUpdate, sqlParams, (error, result, rows) => {
+            if(error) {
+                res.status(500).json({ 'error': error.sqlMessage });
+            } else {
+                console.log('Image modifiée !')
+                res.status(201).json({ pictureUrl, userId, message: 'Image de profil modifiée !'});
+            }
+        });
+    })
+    
+    
 };
 
 // TODO  enlever les droits d'admin après transfert si souhaité ?

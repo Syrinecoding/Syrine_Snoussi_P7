@@ -19,7 +19,7 @@
     <p class="post__content">{{ post.content }}</p>
     <div class="post__reactions">
       <div class="post__likes">
-        <span class="post__number">{{ likes }}</span>
+        <span class="post__number">{{ likes }} </span>
         <button @click="like(post.postId)" class="btn"><Icon icon="wpf:like" color="#f24e1e" height="30" class="icon"/>J'aime</button>
       </div>
       <button @click="comInput = !comInput" class="btn"><Icon icon="fe:comment" color="#f24e1e" height="30" class="icon"/>Je commente</button>

@@ -19,7 +19,7 @@ export default {
     PostInput,
     PostItem
   },
-  emits: ['postMessage'],
+  // emits: ['postMessage'],
   data: () => {
     return {
       user: {},
@@ -73,11 +73,11 @@ export default {
   padding: 10px;
 }
 .post {
-  border: 3px solid #ffc074;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 35px;
   padding: 10px;
   max-width: 700px;
-  margin: 10px 0px;
+  margin: 20px 0px;
   background: white;
   /* cursor: pointer; */
   color: #2c3e50;

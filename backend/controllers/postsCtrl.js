@@ -1,4 +1,5 @@
 const db = require('../middleware/configDb');
+const fs = require('fs');
 
 exports.createPost = (req, res, next) => {
     const userId = req.auth.userId;
@@ -38,24 +39,38 @@ exports.listPosts = (req, res, next) => {
 };
 // TODO supprimer la photo et le fichier photo
 exports.deletePost = (req, res, next) => {
-    // db.query(, ()=>{// SElECT ce postId
-    //     if()...// si attachment , fsunlink
-
-
-    const postId = parseInt(req.params.postId, 10);
-    const sql = "DELETE FROM POSTS WHERE postId= ?;";
+    const postId = req.params.postId;
+    console.log(postId);
     const sqlParams = [postId];
-    db.query(sql, sqlParams, (error, result, fields) => {
-        if(error) {
-            res.status(500).json({ 'error': error.sqlMessage});
-        } else {
-            // fs.unlink('file')
-            res.status(201).json({ message: 'Post supprimé !'});
+    // recherche de l'attachment du post
+    const sqlDeleteImg = "SELECT * FROM POSTS WHERE postId= ?;"
+    db.query(sqlDeleteImg, sqlParams, (errImg, results, fields) => {
+        if(errImg) {
+            res.status(500).json({ 'error': errImg.sqlMessage})
+            // si l'image existe, suppression
+        } else if(results[0].attachment != null) {
+            const oldImg = results[0].attachment
+            console.log(oldImg)
+            const oldFile = oldImg.split('/images/')[1];
+            fs.unlink(`images/${oldFile}`, (err => {
+                if(err) {
+                    console.log(err);
+                    return false
+                } else {
+                    console.log("Image du post supprimée !");
+                    return true
+                }
+            }));  
         }
-    });
-    // })
-
-
+        const sql = "DELETE FROM POSTS WHERE postId= ?;";
+        db.query(sql, sqlParams, (error, result, fields) => {
+            if(error) {
+                res.status(400).json({ 'error': error.sqlMessage});
+            } else {
+                res.status(201).json({ message: 'Post supprimé !'});
+            }
+        });
+    })
 };
 // récupérer tous les commentaires d'un post
 exports.getAllComPosts = (req, res, next) => {
