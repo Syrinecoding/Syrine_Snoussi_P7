@@ -50,9 +50,7 @@ nav {
     }
   }
 }
-footer {
-  height: 100px;
-}
+
 </style>
 
 <script>
