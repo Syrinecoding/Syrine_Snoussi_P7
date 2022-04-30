@@ -97,6 +97,5 @@ exports.getAllComPosts = (req, res, next) => {
         res.status(200).json(result);
     });
 };
-// récupérer tous les likes d'un post
 
 // récupérer un post avec tous ses likes et commentaires
