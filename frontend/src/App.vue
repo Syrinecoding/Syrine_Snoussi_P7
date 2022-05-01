@@ -5,9 +5,9 @@
       <router-link to="/">Accueil <Icon icon="ci:home-alt-fill" color="#f24e1e" height="30" class="icon" /></router-link>
       <router-link to="/users">Collègues <Icon icon="gis:globe-users" color="#f24e1e" height="30" class="icon"/></router-link>
       <router-link to="/profile/:userId">
-        Profil
-        <img v-if="picture" :src="picture" alt="photo de profil" class="tinyCirc">
-        <img v-else src="./assets/img/depositphotos_profile.jpeg" alt="avatar" class="tinyCirc">
+        Profil <Icon icon="bi:person-fill" color="#f24e1e" height="30" class="icon" />
+        <!-- <img v-if="picture" :src="picture" alt="photo de profil" class="tinyCirc">
+        <img v-else src="./assets/img/depositphotos_profile.jpeg" alt="avatar" class="tinyCirc"> -->
       </router-link>
       <router-link to="/signup">Login<Icon icon="ri:login-circle-fill" color="#f24e1e" height="30" class="icon" /></router-link>
     </nav>
@@ -88,7 +88,7 @@ export default {
         }
       }).then((res) => {
         console.log(res)
-        // this.$store.dispatch('fill', user)
+        this.$store.dispatch('fill', user)
         this.picture = this.$store.state.userProfile.picture
       }).catch(err => console.log(err))
     }

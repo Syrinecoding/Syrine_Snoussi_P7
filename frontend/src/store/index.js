@@ -69,9 +69,9 @@ export default createStore({
     }
   },
   actions: {
-    // fill: ({ commit }, userProfile) => {
-    //   commit('logUser', userProfile)
-    // },
+    fill: ({ commit }, userProfile) => {
+      commit('logUser', userProfile)
+    },
     logout: ({ commit }, logout) => {
       commit('logout', logout)
     },
