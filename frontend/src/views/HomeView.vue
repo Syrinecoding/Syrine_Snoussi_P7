@@ -44,6 +44,7 @@ export default {
     getNewPost (value) {
       console.log(value)
       this.allPosts.unshift(value)
+      this.picture = this.$store.state.user.picture
     }
   },
   mounted () {

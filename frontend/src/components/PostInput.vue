@@ -99,7 +99,7 @@ export default {
       this.$router.push('/signup')
     } else {
       console.log(this.$store.state.user)
-      this.picture = this.$store.state.userProfile.picture
+      this.picture = this.$store.state.user.picture
     }
   },
   updated: function () {
@@ -108,7 +108,7 @@ export default {
       this.$router.push('/signup')
     } else {
       console.log(this.$store.state.user)
-      this.picture = this.$store.state.userProfile.picture
+      this.picture = this.$store.state.user.picture
     }
   }
 }
